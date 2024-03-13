@@ -1,0 +1,3 @@
+#' %nin%
+
+`%nin%`  = Negate(`%in%`)
