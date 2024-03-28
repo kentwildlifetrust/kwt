@@ -2,6 +2,7 @@
 
 export("%>%")
 export(addCustomLegend)
+export(add_role)
 export(edit_vals)
 export(en2os)
 export(get_definition)
