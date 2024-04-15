@@ -11,14 +11,14 @@
 #'
 db_write_data_model <- function(x, schema_name, owner_name, overwrite = F, conn = db){
   #find if tables already exist
-  for (i in 1:length(x)) {
-    table_name <- x[[i]]$tableName
-    exists <- DBI::dbExistsTable(conn, RPostgres::Id(schema_name, table_name))
+  for (table in x) {
+    exists <- DBI::dbExistsTable(conn, RPostgres::Id(schema_name, table$tableName))
 
     if (exists & !overwrite) {
-      stop(paste0('Table "', table_name, '" already exists in the schema "', schema_name, '"'))
+      stop(paste0('Table "', table$tableName, '" already exists in the schema "', schema_name, '"'))
     } else if (exists & overwrite) {
-      DBI::dbRemoveTable(conn, RPostgres::Id(schema_name, table_name))
+      DBI::dbExecute(conn, glue::glue_sql("DROP TABLE {`schema_name`}.{`table$tableName`} CASCADE;",
+                                          .con = conn))
     }
   }
 
