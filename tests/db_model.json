@@ -1,0 +1,236 @@
+{
+  "areas": {
+    "tableName": ["areas"],
+    "fields": [
+      {
+        "name": "kwtid",
+        "type": "integer",
+        "nullable": false,
+        "unique": true,
+        "comment": ""
+      },
+      {
+        "name": "priorities_kwtid",
+        "type": "integer",
+        "nullable": false,
+        "unique": false,
+        "comment": "LNRS priority selected for this area."
+      },
+      {
+        "name": "action_description",
+        "type": "character",
+        "nullable": false,
+        "unique": false,
+        "comment": "A description of the action that will deliver against the priority in this area."
+      },
+      {
+        "name": "action_justification",
+        "type": "character",
+        "nullable": false,
+        "unique": false,
+        "comment": "Why the action would contribute to nature restoration."
+      },
+      {
+        "name": "is_landowner",
+        "type": "logical",
+        "nullable": false,
+        "unique": false,
+        "comment": "Does the user own land in this area?"
+      },
+      {
+        "name": "interests_kwtid",
+        "type": "integer",
+        "nullable": false,
+        "unique": false,
+        "comment": "The user's interest in nature recovery."
+      },
+      {
+        "name": "full_name",
+        "type": "character",
+        "nullable": false,
+        "unique": false,
+        "comment": "User's full name to help us keep in contact."
+      },
+      {
+        "name": "email_address",
+        "type": "character",
+        "nullable": false,
+        "unique": false,
+        "comment": "User's email address to help us keep in touch"
+      }
+    ],
+    "primaryKey": ["kwtid"],
+    "foreignKeys": [
+      {
+        "refTable": ["interests"],
+        "key": [
+          {
+            "from": "interests_kwtid",
+            "to": "kwtid"
+          }
+        ],
+        "cardinality": [0, -1, 1, 1]
+      },
+      {
+        "refTable": ["priorities"],
+        "key": [
+          {
+            "from": "priorities_kwtid",
+            "to": "kwtid"
+          }
+        ],
+        "cardinality": [0, -1, 1, 1]
+      }
+    ],
+    "indexes": [
+      {
+        "fields": ["kwtid"],
+        "unique": [true]
+      }
+    ],
+    "display": {
+      "x": [-102],
+      "y": [-109],
+      "color": ["NA"],
+      "comment": ["Part of Kent/Medway that the user has identified as a priority for nature recovery."]
+    }
+  },
+  "priorities": {
+    "tableName": ["priorities"],
+    "fields": [
+      {
+        "name": "kwtid",
+        "type": "integer",
+        "nullable": false,
+        "unique": true,
+        "comment": ""
+      },
+      {
+        "name": "name",
+        "type": "integer",
+        "nullable": false,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "description",
+        "type": "integer",
+        "nullable": false,
+        "unique": false,
+        "comment": ""
+      }
+    ],
+    "primaryKey": ["kwtid"],
+    "foreignKeys": [],
+    "indexes": [
+      {
+        "fields": ["kwtid"],
+        "unique": [true]
+      }
+    ],
+    "display": {
+      "x": [209],
+      "y": [-134],
+      "color": ["NA"],
+      "comment": ["NA"]
+    }
+  },
+  "interests": {
+    "tableName": ["interests"],
+    "fields": [
+      {
+        "name": "kwtid",
+        "type": "integer",
+        "nullable": false,
+        "unique": true,
+        "comment": ""
+      },
+      {
+        "name": "name",
+        "type": "character",
+        "nullable": false,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "description",
+        "type": "character",
+        "nullable": false,
+        "unique": false,
+        "comment": ""
+      }
+    ],
+    "primaryKey": ["kwtid"],
+    "foreignKeys": [],
+    "indexes": [
+      {
+        "fields": ["kwtid"],
+        "unique": [true]
+      }
+    ],
+    "display": {
+      "x": [184],
+      "y": [31],
+      "color": ["NA"],
+      "comment": ["NA"]
+    }
+  },
+  "votes": {
+    "tableName": ["votes"],
+    "fields": [
+      {
+        "name": "kwtid",
+        "type": "integer",
+        "nullable": false,
+        "unique": true,
+        "comment": ""
+      },
+      {
+        "name": "area_id",
+        "type": "integer",
+        "nullable": false,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "timestamp",
+        "type": "POSIXct",
+        "nullable": false,
+        "unique": false,
+        "comment": "time when the vote was submitted."
+      },
+      {
+        "name": "vote",
+        "type": "integer",
+        "nullable": false,
+        "unique": false,
+        "comment": "1 - \"I'm pleased to see this area proposed.\"\n0 - \"I'm concerned to see this area proposed.\""
+      }
+    ],
+    "primaryKey": ["kwtid"],
+    "foreignKeys": [
+      {
+        "refTable": ["areas"],
+        "key": [
+          {
+            "from": "area_id",
+            "to": "kwtid"
+          }
+        ],
+        "cardinality": [0, -1, 1, 1]
+      }
+    ],
+    "indexes": [
+      {
+        "fields": ["kwtid"],
+        "unique": [true]
+      }
+    ],
+    "display": {
+      "x": [119],
+      "y": [-276],
+      "color": ["NA"],
+      "comment": ["Anonymous votes for or against the area being a priority for nature recovery."]
+    }
+  }
+}

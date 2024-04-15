@@ -23,6 +23,7 @@ Imports:
     rlang,
     dbplyr,
     DataEditR,
-    glue
+    glue,
+    ReDaMoR
 Depends: 
     R (>= 2.10)
