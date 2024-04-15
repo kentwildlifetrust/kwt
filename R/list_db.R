@@ -13,9 +13,10 @@
 #'
 
 list_db <- function(conn = db){
+
+  #get tables
   query <- "SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY table_schema, table_name;"
-  # Execute the query
-  info_schema <- DBI::dbGetQuery(conn, query)
+  tables <- DBI::dbGetQuery(conn, query)
 
   #get view definitions
   views <- DBI::dbGetQuery(conn, "select schemaname, viewname from pg_views where schemaname NOT IN ('pg_catalog', 'information_schema');") %>%
@@ -24,7 +25,7 @@ list_db <- function(conn = db){
     dplyr::mutate(type = "matview")
 
   #join
-  info_schema <- info_schema %>%
+  tables <- tables %>%
     dplyr::full_join(views, dplyr::join_by(table_schema == schemaname, table_name == viewname)) %>%
     dplyr::full_join(mat_views, dplyr::join_by(table_schema == schemaname, table_name == matviewname)) %>%
     dplyr::mutate(type = dplyr::coalesce(type.x, type.y)) %>%
@@ -33,11 +34,31 @@ list_db <- function(conn = db){
                   table_name,
                   type)
 
-  list_structure <- split(info_schema, info_schema$table_schema)
+  list_structure <- split(tables, tables$table_schema)
 
   # Apply the function to each subset and combine into a single list
-  result_list <- lapply(list_structure, transform_to_list)
-  return(result_list)
+  db_list <- lapply(list_structure, transform_to_list)
+
+  #get columns
+  query <- "SELECT table_schema, table_name, column_name, ordinal_position, is_nullable, data_type, udt_name FROM information_schema.columns WHERE table_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY table_schema, table_name;"
+  columns <- DBI::dbGetQuery(conn, query)
+  columns <- split(columns, columns$table_schema, drop = T) %>%
+    lapply(function(x){
+      split(x, x$table_name, drop = T) %>%
+        lapply(function(y) {
+          dplyr::select(y, -table_schema, -table_name) %>%
+            dplyr::arrange(ordinal_position)
+        }) %>%
+        return()
+    })
+
+  for (schema in names(columns)){
+    for (table in names(columns[[schema]])) {
+      db_list[[schema]][[table]]$atts <- columns[[schema]][[table]]
+    }
+  }
+
+  return(db_list)
 }
 
 transform_to_list <- function(sub_df) {

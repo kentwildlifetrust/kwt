@@ -9,18 +9,48 @@
 #' @export
 #'
 #'
-run_query <- function(x, geom_col = NULL, crs = 4326, conn = db){
-  if ("character" %in% class(x)) {
+run_query <- function(x = NULL, ref = NULL, conn = db){
+  if (is.null(x) & is.null(ref)) {
+    stop("Must have at least one of x and ref as non-null values")
+  }
+
+  if (is.null(x)) {
+    x <- dplyr::tbl(conn, RPostgres::Id(ref$table_schema, ref$table_name))
+  } else  if ("character" %in% class(x)) {
     x <- dplyr::tbl(conn, x)
+  }
+
+  if (is.null(ref)) {
+    warning("Geometry not decoded as no ref")
+  } else {
+    #find the geometry col
+    if ("geometry" %in% ref$atts$udt_name) {
+      if (sum("geometry" %in% ref$atts$udt_name) > 1) {
+        warning("Multiple geometry columns. The first one will be used")
+      }
+
+      geom_col <- ref$atts %>%
+        dplyr::filter(udt_name == "geometry") %>%
+        dplyr::slice(1) %>%
+        dplyr::pull(column_name)
+
+      #find the crs
+      query <- glue::glue_sql("SELECT srid
+                               FROM geometry_columns
+                               WHERE f_table_schema = {ref$table_schema}
+                                 AND f_table_name = {ref$table_name};",
+                              .con = conn)
+      crs <- DBI::dbGetQuery(conn, query)
+    }
   }
 
   if (!is.null(geom_col)) {
     result <- x %>%
-      dplyr::mutate("{geom_col}" := dbplyr::sql(paste0("ST_AsText(ST_Transform(", geom_col, ", ", crs, "))"))) %>%
+      dplyr::mutate("{geom_col}" := dbplyr::sql(paste0("ST_AsText(ST_Transform(", geom_col, ", ", crs$srid, "))"))) %>%
       dplyr::collect() %>%
       dplyr::mutate("{geom_col}" := sf::st_as_sfc(!!rlang::sym(geom_col))) %>%
       sf::st_as_sf()
-    sf::st_crs(result) <- crs
+    sf::st_crs(result) <- crs$srid
   } else {
     result <- x %>%
       dplyr::collect()

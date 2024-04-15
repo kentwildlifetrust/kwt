@@ -12,8 +12,7 @@ edit_vals <- function(ref, backup = T, conn = db){
     stop("This function only works with tables")
   }
 
-  data <- start_query(ref) %>%
-    run_query(geom_col = NULL, crs = 4326, conn = conn)
+  data <- run_query(ref = ref, conn = conn)
 
   if (backup) {
     if (!dir.exists("backups")) {
@@ -44,7 +43,8 @@ edit_vals <- function(ref, backup = T, conn = db){
 
       if (nrow(rows_to_delete) > 0) {
         #delete the edited rows
-        query <- glue::glue_sql("DELETE FROM {`ref$table_schema`}.{`ref$table_name`} WHERE kwtid IN ({rows_to_delete$kwtid*})",
+        query <- glue::glue_sql("DELETE FROM {`ref$table_schema`}.{`ref$table_name`}
+                                WHERE kwtid IN ({rows_to_delete$kwtid*})",
                                 .con = conn)
         DBI::dbExecute(conn, query)
       }
