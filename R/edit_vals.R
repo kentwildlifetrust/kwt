@@ -13,7 +13,7 @@ edit_vals <- function(ref, backup = T, conn = db){
   }
 
   data <- start_query(ref) %>%
-    run_query()
+    run_query(geom_col = NULL, crs = 4326, conn = conn)
 
   if (backup) {
     if (!dir.exists("backups")) {
@@ -55,6 +55,7 @@ edit_vals <- function(ref, backup = T, conn = db){
       max_kwtid <- DBI::dbGetQuery(conn, query) %>%
         dplyr::pull(max) %>%
         as.integer()
+      if (is.na(max_kwtid)) max_kwtid <- 0
       edited_rows$kwtid <- (max_kwtid + 1):(max_kwtid +
                                               nrow(edited_rows))
 
