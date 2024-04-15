@@ -23,9 +23,7 @@ db_write_data_model <- function(x, schema_name, owner_name, overwrite = F, conn 
   }
 
   #Create tables
-  for (i in 1:length(x)) {
-    table <- x[[i]]
-
+  for (table in x) {
     #initialise table
     create_statement <- glue::glue_sql('CREATE TABLE {`schema_name`}.{`table$tableName`}
                             (
@@ -78,7 +76,22 @@ db_write_data_model <- function(x, schema_name, owner_name, overwrite = F, conn 
         .con = conn
       )
       DBI::dbExecute(conn, comment_statement)
-    }
 
+    }
+  }
+
+  #add foreign keys
+  for (table in x) {
+    for (fk in table$foreignKeys) {
+      foreign_key_statement <- glue::glue_sql(
+        'ALTER TABLE {`schema_name`}.{`table$tableName`}
+         ADD CONSTRAINT {`fk$key$from`} FOREIGN KEY ({`fk$key$from`})
+          REFERENCES {`schema_name`}.{`fk$refTable`} ({`fk$key$to`}) MATCH SIMPLE
+          ON UPDATE RESTRICT
+          ON DELETE RESTRICT;',
+        .con = conn
+      )
+      DBI::dbExecute(conn, foreign_key_statement)
+    }
   }
 }
