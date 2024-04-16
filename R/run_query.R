@@ -15,8 +15,10 @@ run_query <- function(x = NULL, ref = NULL, conn = db){
   }
 
   if (is.null(x)) {
+    #get the whole table if ref argument was provided but x was not
     x <- dplyr::tbl(conn, RPostgres::Id(ref$table_schema, ref$table_name))
   } else  if ("character" %in% class(x)) {
+    #if x was provided as a character sting, assume it was an sql query
     x <- dplyr::tbl(conn, x)
   }
 
@@ -41,20 +43,21 @@ run_query <- function(x = NULL, ref = NULL, conn = db){
                                  AND f_table_name = {ref$table_name};",
                               .con = conn)
       crs <- DBI::dbGetQuery(conn, query)
+
+      #get the result as an sf object with correct crs
+      result <- x %>%
+        dplyr::mutate("{geom_col}" := dbplyr::sql(paste0("ST_AsText(ST_Transform(", geom_col, ", ", crs$srid, "))"))) %>%
+        dplyr::collect() %>%
+        dplyr::mutate("{geom_col}" := sf::st_as_sfc(!!rlang::sym(geom_col))) %>%
+        sf::st_as_sf()
+      sf::st_crs(result) <- crs$srid
+      return(result)
     }
   }
 
-  if (!is.null(geom_col)) {
-    result <- x %>%
-      dplyr::mutate("{geom_col}" := dbplyr::sql(paste0("ST_AsText(ST_Transform(", geom_col, ", ", crs$srid, "))"))) %>%
-      dplyr::collect() %>%
-      dplyr::mutate("{geom_col}" := sf::st_as_sfc(!!rlang::sym(geom_col))) %>%
-      sf::st_as_sf()
-    sf::st_crs(result) <- crs$srid
-  } else {
-    result <- x %>%
-      dplyr::collect()
-  }
+  #get the result as a data frame
+  result <- x %>%
+    dplyr::collect()
 
   return(result)
 }
