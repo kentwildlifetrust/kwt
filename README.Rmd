@@ -28,3 +28,67 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("kentwildlifetrust/kwt")
 ```
+
+## Database connection
+
+The kwt functions that work with the PostgreSQL database have been tested on ODBC connections. This saves the database connection on your machine, avoiding the need to use the .Renviron to save database credentials. You will need to set these up for each database using your own database credentials. Follow these steps to access an ODBC connection in RStudio:
+
+1. Download and install the PostgreSQL ODBC driver from [https://www.postgresql.org/ftp/odbc/versions/msi/](https://www.postgresql.org/ftp/odbc/versions/msi/). You'll need to scroll down to the most recent file ending x64.zip and click on it to download.
+
+2. Extract the zip folder in your downloads.
+
+3. Click on psqlodbc_x64.msi to open the setup wizard.
+
+![](vignettes/installer-start.png)
+
+4. Use the next buttons to go through the wizard. You will need to agree to the liscence agreement. Then click 'install'.
+
+5. Wait for the installation (you may need to click ok to let windows install the driver.)
+
+![](vignettes/installer-wait.png)
+
+6. When installation is complete, search 'ODBC' in the search box in your task bar. Click on the app called **ODBC Data Sources (64-bit)**.
+
+![](vignettes/find-odbc-app.png)
+
+7. Go to the second tab called 'System DSN'. You probably won't have anything listed here yet! Click 'Add...' to open a smaller box.
+
+![](vignettes/odbc-system-dsn.png)
+
+8. Select the PostgreSQL Unicode(x64) driver. If this isn't listed, the installation wasn't successful. Click Finish to open yet another box.
+
+![](vignettes/choose-driver.png)
+
+9. Enter the connection details as follows:
+
+* Data Source: Choose a name for the connection. It's easiest to use the name of the database this connects to. In this example it's the database called 'shared'.
+* Description: Not really necessary. Leave blank.
+* Database: The name of the database. Usually this will be 'shared' as that's where most of the GIS data is.
+* SSL Mode: Set to 'prefer'.
+* Server: The host address of the server. This will be provided along with your database credentials.
+* Port: Set to 5432.
+* User Name: Your username which will be give to you.
+* Password: Also given to you.
+
+![](vignettes/connection-details.png)
+
+
+Once you've entered all of that, click 'Test' to check it works. Then click 'Save'. The connection should now be listed under System Data Sources, so you can click 'OK' to close the ODBC Data Source Administrator.
+
+
+10. Open RStudio and click on 'New Connection' in the Connections Pane.
+
+![](vignettes/new-connection.png)
+
+11. You should be able to find your newly created ODBC data source in the box that opens up. Click on it and then make sure you choose 'Connect from: R Console'. Click OK.
+
+![](vignettes/choose-connection.png)
+![](vignettes/connection-settings.png)
+
+12. Now you should see the database represented by a series of dropdowns for schemas and objects inside (tables, views and materialised views). You can choose to write SQL queries yourself by clicking the SQL button, though this package allows you to easily use the database without any need to write SQL yourself. Functions like `kwt::start_query` and `kwt::run_query` make use of the connection object created by the code chunk above. They can be combined with `{dplyr}` functions to make SQL queries that are run on the server, returning a data frame or spatial data frame. In those functions you may need to specify the connection object just created, in this example called `con`, however if you leave the name of the connection object as `db` then the functions in this package will use it without needing to explicitly include it as an argument.
+
+![](vignettes/db-list-rstudio.png)
+
+13. RStudio now remembers the code chunk used to set up that connection and any others that you create. This means the connection is only a couple of clicks away from being made! There is also no risk of your database credentials being exposed in your code.
+
+![](vignettes/stored-connections.png)

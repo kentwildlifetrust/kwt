@@ -9,7 +9,7 @@
 #' @return
 #' @export
 #'
-db_write_data_model <- function(x, schema_name, owner_name, overwrite = F, conn = db){
+db_write_data_model <- function(x, schema_name, owner_name, crs_srid = 4326, overwrite = F, conn = db){
   #find if tables already exist
   for (table in x) {
     exists <- DBI::dbExistsTable(conn, RPostgres::Id(schema_name, table$tableName))
@@ -51,9 +51,17 @@ db_write_data_model <- function(x, schema_name, owner_name, overwrite = F, conn 
       dplyr::filter(name != "kwtid") %>%
       dplyr::mutate(type = dplyr::case_when(
         type == "POSIXct" ~ "timestamp without time zone",
+        type == "timestamp" ~ "timestamp without time zone",
         type == "integer" ~ "integer",
         type == "character" ~ "character varying",
         type == "logical" ~ "boolean",
+        type == "point geometry" ~ glue::glue("geometry(POINT, {crs_srid})"),
+        type == "linestring geometry" ~ glue::glue("geometry(LINESTRING, {crs_srid})"),
+        type == "polygon geometry" ~ glue::glue("geometry(POLYGON, {crs_srid})"),
+        type == "multipoint geometry" ~ glue::glue("geometry(MULTIPOINT, {crs_srid})"),
+        type == "multilinestring geometry" ~ glue::glue("geometry(MULTILINESTRING, {crs_srid})"),
+        type == "multipolygon geometry" ~ glue::glue("geometry(MULTIPOLYGON, {crs_srid})"),
+        type == "geometry collection" ~ glue::glue("geometry(GEOMETRYCOLLECTION, {crs_srid})"),
         TRUE ~ NA
       ))
 

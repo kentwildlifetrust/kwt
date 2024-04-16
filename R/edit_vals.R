@@ -12,7 +12,8 @@ edit_vals <- function(ref, backup = T, conn = db){
     stop("This function only works with tables")
   }
 
-  data <- run_query(ref = ref, conn = conn)
+  data <- start_query(ref) %>%
+    run_query(geom_col = NULL, crs = 4326, conn = conn)
 
   if (backup) {
     if (!dir.exists("backups")) {
