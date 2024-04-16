@@ -1,6 +1,6 @@
 Package: kwt
 Title: An Internal Package For Kent Wildlife Trust
-Version: 0.0.1.0007
+Version: 0.0.1.0008
 Authors@R: 
     person(given = "Robbie",
            family = "Still",
