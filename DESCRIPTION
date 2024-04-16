@@ -1,6 +1,6 @@
 Package: kwt
 Title: An Internal Package For Kent Wildlife Trust
-Version: 0.0.1.0006
+Version: 0.0.1.0007
 Authors@R: 
     person(given = "Robbie",
            family = "Still",
@@ -24,6 +24,8 @@ Imports:
     dbplyr,
     DataEditR,
     glue,
-    ReDaMoR
+    ReDaMoR (>= 0.7.5)
 Depends: 
     R (>= 2.10)
+Remotes:  
+    kentwildlifetrust/ReDaMoR
