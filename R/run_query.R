@@ -24,6 +24,8 @@ run_query <- function(x = NULL, ref = NULL, conn = db){
 
   if (is.null(ref)) {
     warning("Geometry not decoded as no ref")
+  } else if (ref$type == "matview") {
+    warning("Geometry not decoded as ref is a materialized view")
   } else {
     #find the geometry col
     if ("geometry" %in% ref$atts$udt_name) {
@@ -37,10 +39,7 @@ run_query <- function(x = NULL, ref = NULL, conn = db){
         dplyr::pull(column_name)
 
       #find the crs
-      query <- glue::glue_sql("SELECT srid
-                               FROM geometry_columns
-                               WHERE f_table_schema = {ref$table_schema}
-                                 AND f_table_name = {ref$table_name};",
+      query <- glue::glue_sql("SELECT DISTINCT ST_SRID({`geom_col`}) AS srid FROM {`ref$table_schema`}.{`ref$table_name`};",
                               .con = conn)
       crs <- DBI::dbGetQuery(conn, query)
 
