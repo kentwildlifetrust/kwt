@@ -9,7 +9,7 @@
 #' @return
 #' @export
 #'
-db_write_data_model <- function(x, schema_name, owner_name, crs_srid = 4326, overwrite = F, conn = db){
+db_write_data_model <- function(x, schema_name, crs_srid = 4326, overwrite = F, conn = db){
   #find if tables already exist
   for (table in x) {
     exists <- DBI::dbExistsTable(conn, RPostgres::Id(schema_name, table$tableName))
@@ -24,22 +24,6 @@ db_write_data_model <- function(x, schema_name, owner_name, crs_srid = 4326, ove
 
   #Create tables
   for (table in x) {
-    #initialise table
-    create_statement <- glue::glue_sql('CREATE TABLE {`schema_name`}.{`table$tableName`}
-                            (
-                              kwtid integer NOT NULL,
-                              PRIMARY KEY (kwtid)
-                            )',
-                            .con = conn)
-    DBI::dbExecute(conn, create_statement)
-
-    #add table owner
-    owner_statement <- glue::glue_sql('
-                            ALTER TABLE IF EXISTS {`schema_name`}.{`table$tableName`}
-                            OWNER to {`owner_name`};',
-                            .con = conn)
-    DBI::dbExecute(conn, owner_statement)
-
     #add sequence on kwtid
     sequence_name <- paste0(table$tableName, "_kwtid")
     sequence_statement <- glue::glue_sql('CREATE SEQUENCE IF NOT EXISTS {`schema_name`}.{`sequence_name`}
@@ -47,20 +31,19 @@ db_write_data_model <- function(x, schema_name, owner_name, crs_srid = 4326, ove
                                             START 1
                                             MINVALUE 1
                                             MAXVALUE 1000000000000
-                                            CACHE 1000;',
+                                            CACHE 1;',
                                          .con = conn)
     DBI::dbExecute(conn, sequence_statement)
 
-    #change schema name
-    alter_sequence_statement_1 <- glue::glue_sql('ALTER SEQUENCE {`schema_name`}.{`sequence_name`}
-                                                  OWNER TO {`owner_name`};',
-                                                 .con = conn)
-    DBI::dbExecute(conn, alter_sequence_statement_1)
+    #initialise table
+    create_statement <- glue::glue_sql("CREATE TABLE {`schema_name`}.{`table$tableName`}
+                            (
+                              kwtid integer DEFAULT nextval({paste0(schema_name, '.', sequence_name)}) NOT NULL,
+                              PRIMARY KEY (kwtid)
+                            )",
+                            .con = conn)
+    DBI::dbExecute(conn, create_statement)
 
-    alter_sequence_statement_2 <- glue::glue_sql('ALTER SEQUENCE {`schema_name`}.{`sequence_name`}
-                                                  OWNED BY {`schema_name`}.{`table$tableName`}.kwtid;',
-                                                 .con = conn)
-    DBI::dbExecute(conn, alter_sequence_statement_2)
 
     #add table description
     comment_statement <- glue::glue_sql('COMMENT ON TABLE {`schema_name`}.{`table$tableName`}
