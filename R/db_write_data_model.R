@@ -19,6 +19,8 @@ db_write_data_model <- function(x, schema_name, crs_srid = 4326, overwrite = F, 
     } else if (exists & overwrite) {
       DBI::dbExecute(conn, glue::glue_sql("DROP TABLE {`schema_name`}.{`table$tableName`} CASCADE;",
                                           .con = conn))
+      DBI::dbExecute(conn, glue::glue_sql("DROP SEQUENCE {`schema_name`}.{`paste0(table$tableName, '_kwtid')`};",
+                                          .con = conn))
     }
   }
 
