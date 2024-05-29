@@ -4,14 +4,10 @@
 \alias{run_query}
 \title{Run a query and return the result as a data frame or sf}
 \usage{
-run_query(x, geom_col = NULL, crs = 4326, conn = db)
+run_query(x = NULL, ref = NULL, conn = db)
 }
 \arguments{
 \item{x}{a dplyr tbl object or a character string containing a SQL query.}
-
-\item{geom_col}{the name of the geometry column in the query result. If NULL, the result will be returned as a data frame.}
-
-\item{crs}{the coordinate reference system of the geometry column to be returned in the result. Defaults to 4326.}
 
 \item{conn}{a connection object. Only required if x is a character string.}
 }

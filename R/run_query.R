@@ -2,8 +2,6 @@
 #'
 #' @param x a dplyr tbl object or a character string containing a SQL query.
 #' @param conn a connection object. Only required if x is a character string.
-#' @param geom_col the name of the geometry column in the query result. If NULL, the result will be returned as a data frame.
-#' @param crs the coordinate reference system of the geometry column to be returned in the result. Defaults to 4326.
 #'
 #' @return a data frame or sf object
 #' @export
@@ -41,15 +39,19 @@ run_query <- function(x = NULL, ref = NULL, conn = db){
       #find the crs
       query <- glue::glue_sql("SELECT DISTINCT ST_SRID({`geom_col`}) AS srid FROM {`ref$table_schema`}.{`ref$table_name`};",
                               .con = conn)
-      crs <- DBI::dbGetQuery(conn, query)
+      crs <- DBI::dbGetQuery(conn, query)$srid
+
+      if (length(crs) > 1) {
+        stop("Multiple crs found. Make sure all your geometries have the same crs and none are empty.")
+      }
 
       #get the result as an sf object with correct crs
       result <- x %>%
-        dplyr::mutate("{geom_col}" := dbplyr::sql(paste0("ST_AsText(ST_Transform(", geom_col, ", ", crs$srid, "))"))) %>%
+        dplyr::mutate("{geom_col}" := dbplyr::sql(paste0("ST_AsText(ST_Transform(", geom_col, ", ", crs[1], "))"))) %>%
         dplyr::collect() %>%
         dplyr::mutate("{geom_col}" := sf::st_as_sfc(!!rlang::sym(geom_col))) %>%
         sf::st_as_sf()
-      sf::st_crs(result) <- crs$srid
+      sf::st_crs(result) <- crs
       return(result)
     }
   }

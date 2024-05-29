@@ -14,5 +14,35 @@ edit_vals(ref, backup = T, conn = db)
 \item{conn}{a connection object}
 }
 \description{
-Edit values of a table.
+This function allows you to edit the values of a table in a database. It will open a shiny app where you can edit the values of the table. You can add, remove and edit rows. The function will then update the database with the changes you made. PLEASE NOTE: in the app, you must click the synchronise button and then 'Done' to apply changes.
+}
+\examples{
+if (interactive()) {
+  db <- DBI::dbConnect(odbc::odbc(), dsn = "shared", timeout = 10)
+  make an example dataset in the testing schema of the database
+  include a kwtid column, a name column, a description column and a geom column
+  DBI::dbExecute(db, "DROP TABLE IF EXISTS testing.edit_vals_example;")
+  DBI::dbExecute(db, "CREATE SCHEMA IF NOT EXISTS testing;")
+  DBI::dbExecute(db, "CREATE TABLE IF NOT EXISTS testing.edit_vals_example (
+                      kwtid SERIAL PRIMARY KEY,
+                      name VARCHAR(50),
+                      description TEXT,
+                      geom geometry(POINT, 4326)
+                    );")
+  #generate some example data
+  example_data <- data.frame(name = c("A", "B", "C"),
+                            description = c("First", "Second", "Third"),
+                            geom = list(c(0, 0), c(1, 1), c(2, 2)) \%>\%
+                              lapply(sf::st_point) \%>\%
+                              sf::st_as_sfc() \%>\%
+                              sf::st_as_text())
+  DBI::dbAppendTable(db,
+                  RPostgres::Id(schema = "testing", table = "edit_vals_example"),
+                  example_data)
+  #list datbase tables
+  db_list <- list_db(conn = db)
+  #edit the example table
+  edit_vals(db_list$testing$edit_vals_example, backup = F, conn = db)
+}
+
 }
