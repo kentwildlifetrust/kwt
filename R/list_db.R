@@ -39,9 +39,38 @@ list_db <- function(conn = db){
   # Apply the function to each subset and combine into a single list
   db_list <- lapply(list_structure, transform_to_list)
 
-  #get columns
+  #get columns for tables & views
   query <- "SELECT table_schema, table_name, column_name, ordinal_position, is_nullable, data_type, udt_name FROM information_schema.columns WHERE table_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY table_schema, table_name;"
-  columns <- DBI::dbGetQuery(conn, query)
+  columns_1 <- DBI::dbGetQuery(conn, query)
+
+  #get columns for materialised views
+  #not sure how to get is_nullable or if this is even relevant for mat_views
+  query <- "SELECT
+                n.nspname AS table_schema,
+                c.relname AS table_name,
+                a.attname AS column_name,
+                a.attnum AS ordinal_position,
+                NULL::boolean AS is_nullable,
+                pg_catalog.format_type(a.atttypid, a.atttypmod) AS data_type,
+                a.atttypid::regtype AS udt_name
+            FROM
+                pg_catalog.pg_attribute a
+            JOIN
+                pg_catalog.pg_class c ON a.attrelid = c.oid
+            JOIN
+                pg_catalog.pg_namespace n ON c.relnamespace = n.oid
+            WHERE
+                c.relkind = 'm'  -- 'm' stands for materialized view
+                AND a.attnum > 0
+                AND NOT a.attisdropped
+            ORDER BY
+                n.nspname,
+                c.relname,
+                a.attnum;"
+  columns_2 <- DBI::dbGetQuery(conn, query)
+
+  columns <- rbind(columns_1, columns_2)
+
   columns <- split(columns, columns$table_schema, drop = T) %>%
     lapply(function(x){
       split(x, x$table_name, drop = T) %>%

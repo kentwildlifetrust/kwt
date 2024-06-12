@@ -22,8 +22,6 @@ run_query <- function(x = NULL, ref = NULL, conn = db){
 
   if (is.null(ref)) {
     warning("Geometry not decoded as no ref")
-  } else if (ref$type == "matview") {
-    warning("Geometry not decoded as ref is a materialized view")
   } else {
     #find the geometry col
     if ("geometry" %in% ref$atts$udt_name) {
