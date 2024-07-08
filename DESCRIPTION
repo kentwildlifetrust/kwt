@@ -24,8 +24,7 @@ Imports:
     dbplyr,
     DataEditR,
     glue,
-    ReDaMoR (>= 0.7.5),
-    desc
+    ReDaMoR (>= 0.7.5)
 Depends: 
     R (>= 2.10)
 Remotes: 
