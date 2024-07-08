@@ -15,6 +15,9 @@ map_views(
 
 \item{ignore_schemas}{A character vector of schema names to ignore.}
 }
+\value{
+An htmltools widget showing the directed graph of view dependencies.
+}
 \description{
 View a directed graph of view dependencies in a database.
 }

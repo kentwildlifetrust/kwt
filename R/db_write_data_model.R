@@ -1,10 +1,9 @@
 #' Write a ReDaMoR data model to the database
 #'
-#' @param x data model generated using ReDaMoR::read_json_data_model or ReDaMoR::model_relational_data
-#' @param schema_name name of the scheme to create the tables in
-#' @param owner_name owner of the tables
-#' @param overwrite logical. If set to TRUE then it will overwrite any existing tables in the schema with the same name as a table in the model.
-#' @param conn database connection
+#' @param x RelDataModel list created by `kwt::read_json_data_model` or `kwt::model_relational_data`
+#' @param schema_name name of the schema to create the tables in.
+#' @param overwrite logical. If set to TRUE then it will overwrite any existing tables with names matching the tables in the model. Data will be lost.
+#' @param conn database connection object
 #'
 #' @export
 #'

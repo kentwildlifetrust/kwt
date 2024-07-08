@@ -7,15 +7,13 @@
 db_write_data_model(x, schema_name, crs_srid = 4326, overwrite = F, conn = db)
 }
 \arguments{
-\item{x}{data model generated using ReDaMoR::read_json_data_model or ReDaMoR::model_relational_data}
+\item{x}{RelDataModel list created by \code{kwt::read_json_data_model} or \code{kwt::model_relational_data}}
 
-\item{schema_name}{name of the scheme to create the tables in}
+\item{schema_name}{name of the schema to create the tables in.}
 
-\item{overwrite}{logical. If set to TRUE then it will overwrite any existing tables in the schema with the same name as a table in the model.}
+\item{overwrite}{logical. If set to TRUE then it will overwrite any existing tables with names matching the tables in the model. Data will be lost.}
 
-\item{conn}{database connection}
-
-\item{owner_name}{owner of the tables}
+\item{conn}{database connection object}
 }
 \description{
 Write a ReDaMoR data model to the database
