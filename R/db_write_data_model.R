@@ -6,7 +6,6 @@
 #' @param overwrite logical. If set to TRUE then it will overwrite any existing tables in the schema with the same name as a table in the model.
 #' @param conn database connection
 #'
-#' @return
 #' @export
 #'
 db_write_data_model <- function(x, schema_name, crs_srid = 4326, overwrite = F, conn = db){

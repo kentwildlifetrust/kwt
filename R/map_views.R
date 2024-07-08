@@ -3,7 +3,7 @@
 #' @param conn A DBI connection object.
 #' @param ignore_schemas A character vector of schema names to ignore.
 #'
-#' @return
+#' @return An htmltools widget showing the directed graph of view dependencies.
 #' @export
 #'
 map_views <- function(conn = db, ignore_schemas = c("information_schema", "pg_catalog", "postgis", "admin", "dev", "outputs_backup", "public")){
