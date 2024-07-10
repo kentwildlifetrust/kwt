@@ -39,7 +39,7 @@ WHERE
   glue::glue_sql(.con = conn) %>%
   DBI::dbGetQuery(conn, .) %>%
   dplyr::pull(table_comment) %>%
-  htmltools::tags$p(style = "font-size: 2rem;")
+  htmltools::tags$p(style = "font-size: 1.5rem;")
 ```
 
 ```{r, asis = T}
@@ -60,6 +60,8 @@ paste(
   htmltools::tags$p(htmltools::tags$strong("Location:"), .)
 htmltools::div(htmltools::strong(paste(nrows, "rows")))
 ```
+
+<br>
 
 ### Columns
 
@@ -166,6 +168,8 @@ lapply(1:nrow(cols), function(i) {
   )
 ```
 
+<br>
+
 ### Attributes
 
 ```{r, asis = T}
@@ -184,10 +188,12 @@ att_cols <- cols %>%
   dplyr::filter(udt_name != "geometry") %>%
   dplyr::pull(column_name)
 
-atts <- "SELECT {`att_cols`*} FROM {`params$table_schema`}.{`params$table_name`}" %>%
+atts <- "SELECT {`att_cols`*} FROM {`params$table_schema`}.{`params$table_name`} LIMIT 100;" %>%
   glue::glue_sql(.con = conn) %>%
   DBI::dbGetQuery(conn, .) %>%
   dplyr::rename_all(kwt::to_title_case)
 
 DT::datatable(atts, rownames = FALSE, options = list(scrollX = TRUE))
 ```
+
+<br>
