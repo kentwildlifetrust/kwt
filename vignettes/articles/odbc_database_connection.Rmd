@@ -1,5 +1,5 @@
 ---
-title: "odbc_database_connection"
+title: "Connect to a PostgreSQL Database using ODBC"
 ---
 
 ```{r, include = FALSE}
@@ -8,12 +8,6 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-
-```{r setup}
-library(kwt)
-```
-
-## How to Set up an ODBC Connection to the PostgreSQL Database
 
 The kwt functions that work with the PostgreSQL database have been tested on ODBC connections. This saves the database connection on your machine, avoiding the need to use the .Renviron to save database credentials. You will need to set these up for each database using your own database credentials.
 
@@ -72,7 +66,7 @@ knitr::include_graphics("img/connection-details.png")
 
 Once you've entered all of that, click 'Test' to check it works. Then click 'Save'. The connection should now be listed under System Data Sources, so you can click 'OK' to close the ODBC Data Source Administrator.
 
-### Connect to the Data Source in RStudio
+### 3 - Connect to the Data Source in RStudio
 
 Open RStudio and click on 'New Connection' in the Connections Pane.
 

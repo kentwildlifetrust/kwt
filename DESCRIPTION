@@ -1,5 +1,5 @@
 Package: kwt
-Title: Tools for Coding at Kent Wildlife Trust
+Title: Tools for R at Kent Wildlife Trust
 Version: 0.0.1.0016
 Authors@R: c(
     person("Robbie", "Still", email = "robbie.still@kentwildlife.org.uk", role = c("cre", "aut")),
