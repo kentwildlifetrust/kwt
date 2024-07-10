@@ -1,12 +1,12 @@
 Package: kwt
-Title: An Internal Package For Kent Wildlife Trust
-Version: 0.0.1.0015
-Authors@R: 
-    person(given = "Robbie",
-           family = "Still",
-           role = c("aut", "cre"),
-           email = "robbie.still@kentwildlife.org.uk")
-Description: Plenty of useful functions for the internal operations of a conservation NGO. 
+Title: Tools for Coding at Kent Wildlife Trust
+Version: 0.0.1.0016
+Authors@R: c(
+    person("Robbie", "Still", email = "robbie.still@kentwildlife.org.uk", role = c("cre", "aut")),
+    person("Euan", "Mckenzie", email = "euan.mckenzie@kentwildlife.org.uk", role = "aut"))
+Description: Plenty of useful functions for the internal operations of a conservation NGO. These help with:
+        - Reading from and administrating a Postgres database
+        - Working with Ordnance Survey Grid References and UK Postal Codes
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -33,3 +33,4 @@ Suggests:
     odbc,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Config/Needs/website: rmarkdown

@@ -6,3 +6,7 @@
 ^README\.Rmd$
 ^data-raw$
 ^backups$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^vignettes/articles$
