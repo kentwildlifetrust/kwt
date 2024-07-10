@@ -9,7 +9,7 @@
 #'
 write_table_report <- function(ref, conn = db, filepath = paste0(ref$table_schema, "__", ref$table_name, ".html")){
   rmarkdown::render(
-    input = system.file("data", "table_report_template.Rmd", package = "kwt"),
+    input = system.file("extdata/table_report_template.Rmd", package = "kwt"),
     output_file = filepath,
     params = list(
       table_schema = ref$table_schema,

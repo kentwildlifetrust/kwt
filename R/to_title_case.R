@@ -24,7 +24,8 @@ to_title_case <- function(name){
         "Url" = "URL",
         "Kwtid" = "KWTID",
         "Img" = "Image",
-        "Geom" = "Geometry"
+        "Geom" = "Geometry",
+        "Bng" = "BNG"
       ) %>%
       paste0(collapse = " ")
     return(vec)

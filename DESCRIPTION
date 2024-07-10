@@ -4,9 +4,10 @@ Version: 0.0.1.0016
 Authors@R: c(
     person("Robbie", "Still", email = "robbie.still@kentwildlife.org.uk", role = c("cre", "aut")),
     person("Euan", "Mckenzie", email = "euan.mckenzie@kentwildlife.org.uk", role = "aut"))
-Description: Plenty of useful functions for the internal operations of a conservation NGO. These help with:
-        - Reading from and administrating a Postgres database
-        - Working with Ordnance Survey Grid References and UK Postal Codes
+Description: Provides a basket of tools to make day-to-day work at Kent
+    Wildlife Trust Group easier. This includes functions for working with
+    the PostgreSQL database, as well as working with awkward spatial data
+    types like grid references and postcodes.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -24,7 +25,10 @@ Imports:
     DataEditR,
     glue,
     ReDaMoR (>= 0.7.5),
-    DBI
+    DBI,
+    rmarkdown,
+    visNetwork,
+    colorspace
 Depends: 
     R (>= 2.10)
 Remotes: 
