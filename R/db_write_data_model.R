@@ -2,6 +2,7 @@
 #'
 #' @param x RelDataModel list created by `kwt::read_json_data_model` or `kwt::model_relational_data`
 #' @param schema_name name of the schema to create the tables in.
+#' @param crs_srid the SRID of the coordinate reference system to use for geometry columns, if they are present in any of the tables.
 #' @param overwrite logical. If set to TRUE then it will overwrite any existing tables with names matching the tables in the model. Data will be lost.
 #' @param conn database connection object
 #'

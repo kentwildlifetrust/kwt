@@ -1,6 +1,7 @@
 #' Run a query and return the result as a data frame or sf
 #'
 #' @param x a dplyr tbl object or a character string containing a SQL query.
+#' @param ref a list containing the table schema and name.
 #' @param conn a connection object. Only required if x is a character string.
 #'
 #' @return a data frame or sf object

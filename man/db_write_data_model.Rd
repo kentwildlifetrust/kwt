@@ -11,6 +11,8 @@ db_write_data_model(x, schema_name, crs_srid = 4326, overwrite = F, conn = db)
 
 \item{schema_name}{name of the schema to create the tables in.}
 
+\item{crs_srid}{the SRID of the coordinate reference system to use for geometry columns, if they are present in any of the tables.}
+
 \item{overwrite}{logical. If set to TRUE then it will overwrite any existing tables with names matching the tables in the model. Data will be lost.}
 
 \item{conn}{database connection object}

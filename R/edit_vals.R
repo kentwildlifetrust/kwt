@@ -8,8 +8,8 @@
 #' @examples
 #' if (interactive()) {
 #'   db <- DBI::dbConnect(odbc::odbc(), dsn = "shared", timeout = 10)
-#'   make an example dataset in the testing schema of the database
-#'   include a kwtid column, a name column, a description column and a geom column
+#'   #make an example dataset in the testing schema of the database
+#'   #include a kwtid column, a name column, a description column and a geom column
 #'   DBI::dbExecute(db, "DROP TABLE IF EXISTS testing.edit_vals_example;")
 #'   DBI::dbExecute(db, "CREATE SCHEMA IF NOT EXISTS testing;")
 #'   DBI::dbExecute(db, "CREATE TABLE IF NOT EXISTS testing.edit_vals_example (

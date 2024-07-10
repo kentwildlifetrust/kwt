@@ -9,8 +9,8 @@
 #' @examples
 #' conn <- kwt_db_connect()
 kwt_db_connect <- function(db = "shared",
-                           username = Sys.getenv("kwt_user"),
-                           password = Sys.getenv("kwt_password")) {
+                           username = Sys.getenv("user"),
+                           password = Sys.getenv("password")) {
   DBI::dbConnect(drv = RPostgres::Postgres(),
                        host = Sys.getenv("kwt_host"),
                        port = 5432,

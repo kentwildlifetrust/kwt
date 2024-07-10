@@ -6,8 +6,8 @@
 \usage{
 kwt_db_connect(
   db = "shared",
-  username = Sys.getenv("kwt_user"),
-  password = Sys.getenv("kwt_password")
+  username = Sys.getenv("user"),
+  password = Sys.getenv("password")
 )
 }
 \arguments{

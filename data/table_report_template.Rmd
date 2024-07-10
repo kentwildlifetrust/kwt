@@ -1,0 +1,193 @@
+---
+output: html_document
+params:
+  table_schema: "kwt_reserves"
+  table_name: "kwt_reserves"
+  conn: ""
+title: "`r kwt::to_title_case(params$table_name)`"
+---
+
+```{r setup, include=FALSE}
+library(magrittr)
+knitr::opts_chunk$set(echo = F)
+conn <- params$conn #when running the code chunks the default param is not evaluated, so need to manually set it
+if (is.character(conn)) {
+  conn <- DBI::dbConnect(odbc::odbc(), dsn = "shared", timeout = 10)
+}
+```
+
+```{r, asis = T}
+htmltools::tags$style("table.dataTable > tbody > tr > td {
+                         max-width: 20rem;
+                         overflow-wrap: break-word;
+                      }")
+```
+
+```{r, asis = T}
+"SELECT
+    d.description AS table_comment
+FROM
+    pg_description d
+JOIN
+    pg_class c ON c.oid = d.objoid
+JOIN
+    pg_namespace n ON n.oid = c.relnamespace
+WHERE
+    c.relname = {params$table_name} AND
+    n.nspname = {params$table_schema} AND
+    d.objsubid = 0;" %>%
+  glue::glue_sql(.con = conn) %>%
+  DBI::dbGetQuery(conn, .) %>%
+  dplyr::pull(table_comment) %>%
+  htmltools::tags$p(style = "font-size: 2rem;")
+```
+
+```{r, asis = T}
+nrows <- "SELECT COUNT(*) AS n_rows
+  FROM {`params$table_schema`}.{`params$table_name`}" %>%
+  glue::glue_sql(.con = conn) %>%
+  DBI::dbGetQuery(conn, .) %>%
+  dplyr::pull(n_rows)
+
+               
+paste(
+  DBI::dbGetInfo(conn)$dbname,
+  ">",
+  params$table_schema,
+  ">",
+  params$table_name
+) %>%
+  htmltools::tags$p(htmltools::tags$strong("Location:"), .)
+htmltools::div(htmltools::strong(paste(nrows, "rows")))
+```
+
+### Columns
+
+```{r, asis = T}
+cols <- "WITH table_comment AS (
+            SELECT
+                c.relname AS table_name,
+                n.nspname AS table_schema,
+                d.description AS table_comment
+            FROM
+                pg_description d
+            JOIN
+                pg_class c ON c.oid = d.objoid
+            JOIN
+                pg_namespace n ON n.oid = c.relnamespace
+            WHERE
+                c.relname = {params$table_name} AND
+                n.nspname = {params$table_schema} AND
+                d.objsubid = 0
+        ),
+        column_comments AS (
+            SELECT
+                att.attname AS column_name,
+                col_description(att.attrelid, att.attnum) AS column_comment
+            FROM
+                pg_attribute att
+            WHERE
+                att.attrelid = (
+                    SELECT c.oid
+                    FROM pg_class c
+                    JOIN pg_namespace n ON n.oid = c.relnamespace
+                    WHERE c.relname = {params$table_name}
+                    AND n.nspname = {params$table_schema}
+                ) AND att.attnum > 0
+        )
+        SELECT
+            c.column_name,
+            c.is_nullable,
+            c.data_type,
+            c.udt_name,
+            cc.column_comment AS description,
+            CASE
+                WHEN pk.column_name IS NOT NULL THEN 'YES'
+                ELSE 'NO'
+            END AS is_primary_key
+        FROM
+            information_schema.columns c
+        LEFT JOIN (
+            SELECT
+                kcu.column_name
+            FROM
+                information_schema.table_constraints tc
+            JOIN
+                information_schema.key_column_usage kcu
+                ON tc.constraint_name = kcu.constraint_name
+                AND tc.table_schema = kcu.table_schema
+            WHERE
+                tc.constraint_type = 'PRIMARY KEY'
+                AND tc.table_name = {params$table_name}
+                AND tc.table_schema = {params$table_schema}
+        ) pk
+        ON c.column_name = pk.column_name
+        AND c.table_schema = {params$table_schema}
+        AND c.table_name = {params$table_name}
+        LEFT JOIN column_comments cc
+        ON c.column_name = cc.column_name
+        WHERE
+            c.table_schema = {params$table_schema}
+        AND c.table_name = {params$table_name}
+        ORDER BY
+            c.ordinal_position
+        LIMIT 100;" %>%
+  glue::glue_sql(.con = conn) %>%
+  DBI::dbGetQuery(conn, .)
+
+lapply(1:nrow(cols), function(i) {
+  htmltools::div(
+    class = "card",
+    if (cols$is_primary_key[i] == "YES") {
+      htmltools::h4(sprintf("%s (PK)", kwt::to_title_case(cols$column_name[i])))
+    } else {
+      htmltools::h4(kwt::to_title_case(cols$column_name[i]))
+    },
+    htmltools::div(htmltools::strong("Name:"), cols$column_name[i]),
+    htmltools::div(htmltools::strong("Data type:"), 
+                   if (cols$data_type[i] == "USER-DEFINED") {
+                      cols$udt_name[i]
+                    } else {
+                       cols$data_type[i]
+                    }),
+    if (cols$is_nullable[i] == "YES") {
+      htmltools::p(htmltools::strong("Is nullable:"), "yes")
+    } else {
+      htmltools::p(htmltools::strong("Is nullable:"), "no")
+    },
+    if (!is.na(cols$description[i])) htmltools::p(htmltools::em(    (cols$description[i])))
+  )
+}) %>%
+  unname() %>%
+  htmltools::div(style = "display: flex; flex-wrap: wrap;") %>%
+  htmltools::tagList(
+    htmltools::tags$style(".card {border: 1px solid #ccc; padding: 1rem; margin: 1rem; border-radius: 5px; width: 20rem;} h4 {font-weight: 600;}"),
+    .
+  )
+```
+
+### Attributes
+
+```{r, asis = T}
+if (nrows == 0) {
+  htmltools::p("This table is empty.")
+}
+if (nrows > 100) {
+  sprintf("This is a big table. %s rows out of %s are loaded.", 100, nrows) %>%
+    htmltools::p()
+}
+```
+
+```{r}
+#find the geometry column so we can leave it out
+att_cols <- cols %>%
+  dplyr::filter(udt_name != "geometry") %>%
+  dplyr::pull(column_name)
+
+atts <- "SELECT {`att_cols`*} FROM {`params$table_schema`}.{`params$table_name`}" %>%
+  glue::glue_sql(.con = conn) %>%
+  DBI::dbGetQuery(conn, .) %>%
+  dplyr::rename_all(kwt::to_title_case)
+
+DT::datatable(atts, rownames = FALSE, options = list(scrollX = TRUE))
+```

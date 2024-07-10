@@ -19,16 +19,17 @@ Imports:
     magrittr,
     leaflet,
     stringr,
-    stats,
     rlang,
     dbplyr,
     DataEditR,
     glue,
-    ReDaMoR (>= 0.7.5)
+    ReDaMoR (>= 0.7.5),
+    DBI
 Depends: 
     R (>= 2.10)
 Remotes: 
     kentwildlifetrust/ReDaMoR
 Suggests: 
+    odbc,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

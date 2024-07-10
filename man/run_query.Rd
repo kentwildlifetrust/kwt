@@ -9,6 +9,8 @@ run_query(x = NULL, ref = NULL, conn = db)
 \arguments{
 \item{x}{a dplyr tbl object or a character string containing a SQL query.}
 
+\item{ref}{a list containing the table schema and name.}
+
 \item{conn}{a connection object. Only required if x is a character string.}
 }
 \value{
