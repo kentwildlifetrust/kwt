@@ -1,3 +1,16 @@
+#' create_db
+#'
+#' @param conn A DBI database connection connecting to the postgres database with the admin login
+#' @param db_name The name of the database to be created
+#' @param app_role The name of the user to be created with the database
+#'
+#' @return The details of the database and user created
+#' @export
+#'
+#' @examples
+#' conn <- pool::dbPool(drv = RPostgres::Postgres(), host = "xxxxxxx", port = 5432, dbname = "postgres", user = "xxxxx", password = "xxxxxxx", sslmode = "prefer")
+#' create_db(conn, "test_db", "test_user")
+
 create_db <- function(conn, db_name, app_role){
   # Create database based on temnplate
   DBI::dbExecute(conn, glue::glue_sql("CREATE DATABASE {DBI::dbQuoteIdentifier(conn,db_name)} TEMPLATE kwt_database_template;", .con=conn))
