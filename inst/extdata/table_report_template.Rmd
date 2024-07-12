@@ -139,31 +139,31 @@ cols <- "WITH table_comment AS (
 
 lapply(1:nrow(cols), function(i) {
   htmltools::div(
-    class = "card",
+    class = "column-card",
     if (cols$is_primary_key[i] == "YES") {
-      htmltools::h4(sprintf("%s (PK)", kwt::to_title_case(cols$column_name[i])))
+      htmltools::div(class = "column-card-title", sprintf("%s (PK)", kwt::to_title_case(cols$column_name[i])))
     } else {
-      htmltools::h4(kwt::to_title_case(cols$column_name[i]))
+      htmltools::div(class = "column-card-title", kwt::to_title_case(cols$column_name[i]))
     },
-    htmltools::div(htmltools::strong("Name:"), cols$column_name[i]),
-    htmltools::div(htmltools::strong("Data type:"), 
+    htmltools::p(cols$column_name[i]),
+    htmltools::div("Data type:",
                    if (cols$data_type[i] == "USER-DEFINED") {
-                      cols$udt_name[i]
+                      htmltools::strong(cols$udt_name[i])
                     } else {
-                       cols$data_type[i]
+                       htmltools::strong(cols$data_type[i])
                     }),
     if (cols$is_nullable[i] == "YES") {
-      htmltools::p(htmltools::strong("Is nullable:"), "yes")
+      htmltools::p(htmltools::strong("nullable"))
     } else {
-      htmltools::p(htmltools::strong("Is nullable:"), "no")
+      htmltools::p(htmltools::strong("Not nullable"))
     },
     if (!is.na(cols$description[i])) htmltools::p(htmltools::em(    (cols$description[i])))
   )
 }) %>%
   unname() %>%
-  htmltools::div(style = "display: flex; flex-wrap: wrap;") %>%
+  htmltools::div(style = "display: flex; flex-wrap: wrap; gap: 10px;") %>%
   htmltools::tagList(
-    htmltools::tags$style(".card {border: 1px solid #ccc; padding: 1rem; margin: 1rem; border-radius: 5px; width: 20rem;} h4 {font-weight: 600;}"),
+    htmltools::tags$style(".column-card {border: 1px solid #ccc; padding: 16px; border-radius: 5px; width: 252px !important; background-color: #f9f9f9; overflow-wrap: break-word;} .column-card-title {font-weight: 600; font-size: 18px;}"),
     .
   )
 ```
