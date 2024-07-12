@@ -9,6 +9,18 @@
 #' @export
 #'
 db_write_data_model <- function(x, schema_name, crs_srid = 4326, overwrite = F, conn = db){
+  #check that the data types are all valid
+  valid_types <- c("POSIXct", "numeric", "date", "timestamp", "integer", "character",
+                   "logical", "point geometry", "linestring geometry",
+                   "polygon geometry", "multipoint geometry", "multilinestring geometry",
+                   "multipolygon geometry", "geometry collection")
+  data_types <- unique(unlist(lapply(x, function(table) table$fields$type)))
+  invalid_types <- data_types[!data_types %in% valid_types]
+
+  if (length(invalid_types) > 0) {
+    stop(paste("Invalid data types found:", paste(invalid_types, collapse = ", "), "\n Please use one of the following data types:", paste(valid_types, collapse = ", ")))
+  }
+
   #find if tables already exist
   for (table in x) {
     exists <- DBI::dbExistsTable(conn, RPostgres::Id(schema_name, table$tableName))
