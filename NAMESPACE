@@ -3,6 +3,7 @@
 export("%>%")
 export(addCustomLegend)
 export(add_role)
+export(create_db)
 export(db_write_data_model)
 export(edit_vals)
 export(en2os)
