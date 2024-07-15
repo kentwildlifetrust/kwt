@@ -9,6 +9,7 @@
 #' @export
 #'
 db_write_data_model <- function(x, schema_name, crs_srid = 4326, overwrite = F, conn = db){
+  library(magrittr)
   #check that the data types are all valid
   valid_types <- c("POSIXct", "numeric", "date", "timestamp", "integer", "character",
                    "logical", "point geometry", "linestring geometry",
@@ -23,7 +24,7 @@ db_write_data_model <- function(x, schema_name, crs_srid = 4326, overwrite = F, 
 
   #find if tables already exist
   for (table in x) {
-    exists <- DBI::dbExistsTable(conn, RPostgres::Id(schema_name, table$tableName))
+    exists <- DBI::dbExistsTable(conn, DBI::Id(schema=schema_name, table=table$tableName))
 
     if (exists & !overwrite) {
       stop(paste0('Table "', table$tableName, '" already exists in the schema "', schema_name, '"'))
@@ -54,14 +55,14 @@ db_write_data_model <- function(x, schema_name, crs_srid = 4326, overwrite = F, 
                               kwtid integer DEFAULT nextval({paste0(schema_name, '.', sequence_name)}) NOT NULL,
                               PRIMARY KEY (kwtid)
                             )",
-                            .con = conn)
+                                       .con = conn)
     DBI::dbExecute(conn, create_statement)
 
 
     #add table description
     comment_statement <- glue::glue_sql('COMMENT ON TABLE {`schema_name`}.{`table$tableName`}
                             is {table$display$comment}',
-                            .con = conn)
+                                        .con = conn)
     DBI::dbExecute(conn, comment_statement)
 
     #add table fields
@@ -92,9 +93,9 @@ db_write_data_model <- function(x, schema_name, crs_srid = 4326, overwrite = F, 
       field_statement <- glue::glue_sql(
         paste('ALTER TABLE IF EXISTS {`schema_name`}.{`table$tableName`}
             ADD COLUMN {`fields$name[i]`}', fields$type[i],
-            if (!fields$nullable[i]) {
-              "NOT NULL"
-            }),
+              if (!fields$nullable[i]) {
+                "NOT NULL"
+              }),
         .con = conn)
       DBI::dbExecute(conn, field_statement)
       #comment on field
