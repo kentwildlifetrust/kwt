@@ -9,11 +9,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-The kwt functions that work with the PostgreSQL database have been tested on ODBC connections. This saves the database connection on your machine, avoiding the need to use the .Renviron to save database credentials. You will need to set these up for each database using your own database credentials.
+This package uses ODBC connections in functions that interact with the PostGIS database. These connections are saved to your local machine, avoiding the need to use the .Renviron and any reduce the risk that credentials can be accidentally shared. Each database you use will need an ODBC connection created by following these instructions.
 
 ### 1 - Download and install the PostgreSQL ODBC driver
 
-The driver can be downloaded here: <https://www.postgresql.org/ftp/odbc/versions/msi/>. You'll need to scroll down to the most recent file ending x64.zip and click on it to download.
+The driver can be downloaded here: <https://www.postgresql.org/ftp/odbc/releases/REL-16_00_0005-mimalloc/>. You'll need to download the \_x64.msi file.
 
 Extract the zip folder in your downloads and then double click on psqlodbc_x64.msi to open the setup wizard.
 

@@ -8,7 +8,7 @@
 #' * table_name: the name of the table/view
 #' * type: the type of the table/view. Either "table", "view" or "matview"
 #'
-#' @export
+#'
 #'
 #'
 

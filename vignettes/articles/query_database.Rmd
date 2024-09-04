@@ -1,0 +1,20 @@
+---
+title: "Query Databases"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(kwt)
+```
+
+{kwt} provides functions to help query the database quickly and easily. To use these functions, you need to have an ODBC connection set up. If you haven't done this yet, follow the instructions in the [Connect to a PostgreSQL Database using ODBC](odbc_database_connection.html) article.
+
+### 1 - Create a connection object
+
+The first step is to create a connection object. This is done using the `dbConnect()` function. This function takes the name of the ODBC connection you set up in the previous step.

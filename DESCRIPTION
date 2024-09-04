@@ -34,8 +34,10 @@ Depends:
 Remotes: 
     kentwildlifetrust/ReDaMoR
 Suggests: 
+    knitr,
     odbc,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/Needs/website: rmarkdown
 URL: https://kentwildlifetrust.github.io/kwt/
+VignetteBuilder: knitr
