@@ -24,7 +24,6 @@ Imports:
     dbplyr,
     DataEditR,
     glue,
-    ReDaMoR (>= 0.7.5),
     DBI,
     rmarkdown,
     visNetwork,

@@ -1,5 +1,5 @@
 ---
-title: "Query Databases"
+title: "Query PostGIS"
 ---
 
 ```{r, include = FALSE}
@@ -17,4 +17,8 @@ library(kwt)
 
 ### 1 - Create a connection object
 
-The first step is to create a connection object. This is done using the `dbConnect()` function. This function takes the name of the ODBC connection you set up in the previous step.
+The first step is to create a connection object. This is done using the `db_connect()` function. This function takes the name of the ODBC connection you set up in the previous step.
+
+```{r}
+db <- db_connect("shared")
+```

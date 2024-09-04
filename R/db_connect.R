@@ -19,7 +19,7 @@ db_connect <- function(connection_name){
     if (e$message == "ODBC failed with error IM002 from \\\n             \033[32m[Microsoft][ODBC Driver Manager]\033[39m.")
       stop("Connection name not found. Please check the connection name.")
     else if (e$message == "ODBC failed with error 08001 from \\\n             .")
-      stop("Connection failed. Please check the username & password using the 'ODBC Data Sources 64-bit' desktop application. You can ask Euan in the Digital Development Team for a reminder of your credentials.")
+      stop("Connection failed. Please check the username & password using the 'ODBC Data Sources 64-bit' desktop application. If you need a reminder of your credentials, please get in touch with Euan in the Digital Development Team.")
     else
       stop(e$message)
   })
