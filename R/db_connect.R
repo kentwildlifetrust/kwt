@@ -34,9 +34,9 @@ db_connect <- function(connection_name){
   cat("Done\n")
 
   result <- list(
-    conn = conn,
-    refs = db_list
-  )
+    conn = conn
+  ) %>%
+    c(db_list)
 
   class(result) <- "listed_connection"
   return(result)
