@@ -13,9 +13,7 @@ This package uses ODBC connections in functions that interact with the PostGIS d
 
 ### 1 - Download and install the PostgreSQL ODBC driver
 
-The driver can be downloaded here: <https://www.postgresql.org/ftp/odbc/releases/REL-16_00_0005-mimalloc/>. You'll need to download the \_x64.msi file.
-
-Extract the zip folder in your downloads and then double click on psqlodbc_x64.msi to open the setup wizard.
+The driver can be downloaded here: <https://www.postgresql.org/ftp/odbc/releases/REL-16_00_0005-mimalloc/>. You'll need to download the psqlodbc-setup.exe file and run it.
 
 ```{r out.width = '70%', echo = FALSE}
 knitr::include_graphics("img/installer-start.png")

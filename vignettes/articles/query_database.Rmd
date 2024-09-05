@@ -20,7 +20,7 @@ library(kwt)
 The first step is to create a connection object. This is done using the `db_connect()` function. This function takes the name of the ODBC connection you set up in the previous step.
 
 ```{r}
-db <- db_connect("shared")
+#db <- db_connect("shared")
 ```
 
 ### 2 - Get a table or view
