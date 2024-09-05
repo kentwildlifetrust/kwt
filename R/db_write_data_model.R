@@ -1,4 +1,4 @@
-#' Write a ReDaMoR data model to the database
+#' Write a postgisMoR data model to the database
 #'
 #' @param x RelDataModel list created by `kwt::read_json_data_model` or `kwt::model_relational_data`
 #' @param schema_name name of the schema to create the tables in.

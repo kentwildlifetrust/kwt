@@ -14,7 +14,6 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: 
-    RPostgres,
     dplyr,
     sf,
     magrittr,
@@ -27,11 +26,12 @@ Imports:
     DBI,
     rmarkdown,
     visNetwork,
-    colorspace
+    colorspace,
+    postgisMoR
 Depends: 
     R (>= 2.10)
 Remotes: 
-    kentwildlifetrust/ReDaMoR
+    kentwildlifetrust/postgisMoR
 Suggests: 
     knitr,
     odbc,

@@ -22,3 +22,7 @@ The first step is to create a connection object. This is done using the `db_conn
 ```{r}
 db <- db_connect("shared")
 ```
+
+### 2 - Get a table or view
+
+You can query a table or view using the `db_query_table()` function. This function takes the connection object and the name of the table you want to query.

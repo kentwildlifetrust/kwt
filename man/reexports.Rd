@@ -13,6 +13,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{ReDaMoR}{\code{\link[ReDaMoR]{model_relational_data}}, \code{\link[ReDaMoR]{read_json_data_model}}, \code{\link[ReDaMoR]{write_json_data_model}}}
+  \item{postgisMoR}{\code{\link[postgisMoR]{model_relational_data}}, \code{\link[postgisMoR]{read_json_data_model}}, \code{\link[postgisMoR]{write_json_data_model}}}
 }}
 

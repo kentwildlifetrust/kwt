@@ -1,10 +1,10 @@
-#' @importFrom ReDaMoR write_json_data_model read_json_data_model model_relational_data
+#' @importFrom postgisMoR write_json_data_model read_json_data_model model_relational_data
 #'
 #' @export
-ReDaMoR::write_json_data_model
+postgisMoR::write_json_data_model
 
 #' @export
-ReDaMoR::read_json_data_model
+postgisMoR::read_json_data_model
 
 #' @export
-ReDaMoR::model_relational_data
+postgisMoR::model_relational_data

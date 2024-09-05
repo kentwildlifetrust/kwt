@@ -1,5 +1,5 @@
 db <- DBI::dbConnect(odbc::odbc(), dsn = "shared", timeout = 10)
-shared <- kwt::list_db(db)
+shared <- list_db(db)
 
 test_that("non-spatial table ref works", {
   result <- run_query(ref = shared$cog$acronyms, conn = db)

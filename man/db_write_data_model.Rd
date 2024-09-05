@@ -2,7 +2,7 @@
 % Please edit documentation in R/db_write_data_model.R
 \name{db_write_data_model}
 \alias{db_write_data_model}
-\title{Write a ReDaMoR data model to the database}
+\title{Write a postgisMoR data model to the database}
 \usage{
 db_write_data_model(x, schema_name, crs_srid = 4326, overwrite = F, conn = db)
 }
@@ -18,5 +18,5 @@ db_write_data_model(x, schema_name, crs_srid = 4326, overwrite = F, conn = db)
 \item{conn}{database connection object}
 }
 \description{
-Write a ReDaMoR data model to the database
+Write a postgisMoR data model to the database
 }

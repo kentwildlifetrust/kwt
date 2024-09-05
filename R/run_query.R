@@ -8,58 +8,61 @@
 #' @export
 #'
 #'
-run_query <- function(x = NULL, ref = NULL, conn = db){
-  if (is.null(x) & is.null(ref)) {
-    stop("Must have at least one of x and ref as non-null values")
-  }
+execute_lazy <- function(lazy_tbl, limit = 1000){
 
-  if (is.null(x)) {
-    #get the whole table if ref argument was provided but x was not
-    x <- dplyr::tbl(conn, RPostgres::Id(ref$table_schema, ref$table_name))
-  } else  if ("character" %in% class(x)) {
-    #if x was provided as a character sting, assume it was an sql query
-    x <- dplyr::tbl(conn, x)
-  }
 
-  if (is.null(ref)) {
-    warning("Geometry not decoded as no ref")
-  } else {
-    #find the geometry col
-    if ("geometry" %in% ref$atts$udt_name) {
-      if (sum("geometry" %in% ref$atts$udt_name) > 1) {
-        warning("Multiple geometry columns. The first one will be used")
-      }
 
-      geom_col <- ref$atts %>%
-        dplyr::filter(udt_name == "geometry") %>%
-        dplyr::slice(1) %>%
-        dplyr::pull(column_name)
-
-      #find the crs
-      query <- glue::glue_sql("SELECT DISTINCT ST_SRID({`geom_col`}) AS srid FROM {`ref$table_schema`}.{`ref$table_name`};",
-                              .con = conn)
-      crs <- DBI::dbGetQuery(conn, query)$srid
-
-      if (length(crs) > 1) {
-        stop("Multiple crs found. Make sure all your geometries have the same crs and none are empty.")
-      }
-
-      #get the result as an sf object with correct crs
-      result <- x %>%
-        dplyr::mutate("{geom_col}" := dbplyr::sql(paste0("ST_AsText(ST_Transform(", geom_col, ", ", crs[1], "))"))) %>%
-        dplyr::collect() %>%
-        dplyr::mutate("{geom_col}" := sf::st_as_sfc(!!rlang::sym(geom_col))) %>%
-        sf::st_as_sf()
-      sf::st_crs(result) <- crs
-      return(result)
-    }
-  }
-
-  #get the result as a data frame
-  result <- x %>%
-    dplyr::collect()
-
-  return(result)
+  # if (is.null(x) & is.null(ref)) {
+  #   stop("Must have at least one of x and ref as non-null values")
+  # }
+  #
+  # if (is.null(x)) {
+  #   #get the whole table if ref argument was provided but x was not
+  #   x <- dplyr::tbl(conn, RPostgres::Id(ref$table_schema, ref$table_name))
+  # } else  if ("character" %in% class(x)) {
+  #   #if x was provided as a character sting, assume it was an sql query
+  #   x <- dplyr::tbl(conn, x)
+  # }
+  #
+  # if (is.null(ref)) {
+  #   warning("Geometry not decoded as no ref")
+  # } else {
+  #   #find the geometry col
+  #   if ("geometry" %in% ref$atts$udt_name) {
+  #     if (sum("geometry" %in% ref$atts$udt_name) > 1) {
+  #       warning("Multiple geometry columns. The first one will be used")
+  #     }
+  #
+  #     geom_col <- ref$atts %>%
+  #       dplyr::filter(udt_name == "geometry") %>%
+  #       dplyr::slice(1) %>%
+  #       dplyr::pull(column_name)
+  #
+  #     #find the crs
+  #     query <- glue::glue_sql("SELECT DISTINCT ST_SRID({`geom_col`}) AS srid FROM {`ref$table_schema`}.{`ref$table_name`};",
+  #                             .con = conn)
+  #     crs <- DBI::dbGetQuery(conn, query)$srid
+  #
+  #     if (length(crs) > 1) {
+  #       stop("Multiple crs found. Make sure all your geometries have the same crs and none are empty.")
+  #     }
+  #
+  #     #get the result as an sf object with correct crs
+  #     result <- x %>%
+  #       dplyr::mutate("{geom_col}" := dbplyr::sql(paste0("ST_AsText(ST_Transform(", geom_col, ", ", crs[1], "))"))) %>%
+  #       dplyr::collect() %>%
+  #       dplyr::mutate("{geom_col}" := sf::st_as_sfc(!!rlang::sym(geom_col))) %>%
+  #       sf::st_as_sf()
+  #     sf::st_crs(result) <- crs
+  #     return(result)
+  #   }
+  # }
+  #
+  # #get the result as a data frame
+  # result <- x %>%
+  #   dplyr::collect()
+  #
+  # return(result)
 }
 
 
