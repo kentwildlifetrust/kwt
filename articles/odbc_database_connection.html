@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">kwt</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.0016</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.0000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,6 +40,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/odbc_database_connection.html">Connect to a PostgreSQL Database using ODBC</a></li>
+    <li><a class="dropdown-item" href="../articles/query_database.html">Query PostGIS</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -69,19 +70,16 @@
 
     
     
-<p>The kwt functions that work with the PostgreSQL database have been
-tested on ODBC connections. This saves the database connection on your
-machine, avoiding the need to use the .Renviron to save database
-credentials. You will need to set these up for each database using your
-own database credentials.</p>
+<p>This package uses ODBC connections in functions that interact with
+the PostGIS database. These connections are saved to your local machine,
+avoiding the need to use the .Renviron and any reduce the risk that
+credentials can be accidentally shared. Each database you use will need
+an ODBC connection created by following these instructions.</p>
 <div class="section level3">
 <h3 id="download-and-install-the-postgresql-odbc-driver">1 - Download and install the PostgreSQL ODBC driver<a class="anchor" aria-label="anchor" href="#download-and-install-the-postgresql-odbc-driver"></a>
 </h3>
-<p>The driver can be downloaded here: <a href="https://www.postgresql.org/ftp/odbc/versions/msi/" class="external-link uri">https://www.postgresql.org/ftp/odbc/versions/msi/</a>.
-You’ll need to scroll down to the most recent file ending x64.zip and
-click on it to download.</p>
-<p>Extract the zip folder in your downloads and then double click on
-psqlodbc_x64.msi to open the setup wizard.</p>
+<p>The driver can be downloaded here: <a href="https://www.postgresql.org/ftp/odbc/releases/REL-16_00_0005-mimalloc/" class="external-link uri">https://www.postgresql.org/ftp/odbc/releases/REL-16_00_0005-mimalloc/</a>.
+You’ll need to download the psqlodbc-setup.exe file and run it.</p>
 <p><img src="img/installer-start.png" width="70%"></p>
 <p>Use the next buttons to go through the wizard. You will need to agree
 to the liscence agreement. Then click ‘install’.</p>
@@ -139,8 +137,8 @@ from: R Console’. Click OK.</p>
 for schemas and objects inside (tables, views and materialised views).
 You can choose to write SQL queries yourself by clicking the SQL button,
 though this package allows you to easily use the database without any
-need to write SQL yourself. Functions like <code><a href="../reference/start_query.html">kwt::start_query</a></code>
-and <code><a href="../reference/run_query.html">kwt::run_query</a></code> make use of the connection object
+need to write SQL yourself. Functions like <code>kwt::start_query</code>
+and <code>kwt::run_query</code> make use of the connection object
 created by the code chunk above. They can be combined with
 <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a> functions to make SQL queries that are run on the
 server, returning a data frame or spatial data frame. In those functions

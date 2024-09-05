@@ -4,18 +4,20 @@
 <url><loc>https://kentwildlifetrust.github.io/kwt/LICENSE.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/articles/index.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/articles/odbc_database_connection.html</loc></url>
+<url><loc>https://kentwildlifetrust.github.io/kwt/articles/query_database.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/authors.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/index.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/news/index.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/addCustomLegend.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/add_role.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/create_db.html</loc></url>
+<url><loc>https://kentwildlifetrust.github.io/kwt/reference/db_connect.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/db_write_data_model.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/edit_vals.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/en2os.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/get_definition.html</loc></url>
+<url><loc>https://kentwildlifetrust.github.io/kwt/reference/get_lazy.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/index.html</loc></url>
-<url><loc>https://kentwildlifetrust.github.io/kwt/reference/kwt_db_connect.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/list_db.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/map_views.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/os2en.html</loc></url>
@@ -25,11 +27,9 @@
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/postcode2point.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/postcode_lookup.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/reexports.html</loc></url>
-<url><loc>https://kentwildlifetrust.github.io/kwt/reference/run_query.html</loc></url>
+<url><loc>https://kentwildlifetrust.github.io/kwt/reference/run_lazy.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/st_centroid_within_poly.html</loc></url>
-<url><loc>https://kentwildlifetrust.github.io/kwt/reference/start_query.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/to_title_case.html</loc></url>
-<url><loc>https://kentwildlifetrust.github.io/kwt/reference/wc_db_connect.html</loc></url>
 <url><loc>https://kentwildlifetrust.github.io/kwt/reference/write_table_report.html</loc></url>
 </urlset>
 

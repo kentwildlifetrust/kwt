@@ -3,7 +3,8 @@ pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   articles/odbc_database_connection: odbc_database_connection.html
-last_built: 2024-07-12T14:56Z
+  articles/query_database: query_database.html
+last_built: 2024-09-05T15:01Z
 urls:
   reference: https://kentwildlifetrust.github.io/kwt/reference
   article: https://kentwildlifetrust.github.io/kwt/articles
