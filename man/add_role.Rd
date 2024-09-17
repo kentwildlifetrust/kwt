@@ -7,7 +7,7 @@
 add_role(conn, username, group)
 }
 \arguments{
-\item{conn}{Connection to a database using admin credentials. Currently this will work with only the lnrs and shared databases.}
+\item{conn}{Connection to a database, which must be using the KWTAdmin credentials.}
 
 \item{username}{The username for the new credentials.}
 
@@ -17,5 +17,6 @@ add_role(conn, username, group)
 A list including the username and password of the new credentials
 }
 \description{
-Creates a new role and records it in an admin.logins table.
+Creates a new role and records it in an admin.logins table. If the admin.logins table does not exist, it will be created and filled with random passwords.
+Best practice is to make a new set of credentials for every webapp and every human user.
 }

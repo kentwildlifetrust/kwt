@@ -1,9 +1,10 @@
 #' Add a role to the database
 #'
 #' @description
-#' Creates a new role and records it in an admin.logins table.
+#' Creates a new role and records it in an admin.logins table. If the admin.logins table does not exist, it will be created and filled with random passwords.
+#' Best practice is to make a new set of credentials for every webapp and every human user.
 #'
-#' @param conn Connection to a database using admin credentials. Currently this will work with only the lnrs and shared databases.
+#' @param conn Connection to a database, which must be using the KWTAdmin credentials.
 #' @param username The username for the new credentials.
 #'
 #' @param group The name of a user group to add the credentials to.
@@ -12,6 +13,23 @@
 #' @export
 #'
 add_role <- function(conn, username, group){
+  #check if table admin.logins exists
+  if(!DBI::dbExistsTable(conn, DBI::Id("admin", "logins"))){
+    #create admin.logins
+    DBI::dbExecute(conn, "CREATE TABLE admin.logins (kwtid INT PRIMARY KEY, username TEXT, password TEXT)")
+    #fill the table with radom passwords
+    df <- data.frame(kwtid = 1:20, username = NA_character_, password = paste0("pgiskwt", sample(10000:99999, 20)))
+    DBI::dbWriteTable(conn, DBI::Id("admin", "logins"), df, append = TRUE)
+  }
+
+  #check that the owner of admin.logins is KWTAdmin
+  owner <- DBI::dbGetQuery(conn, "SELECT pg_get_userbyid(relowner) FROM pg_class WHERE relname = 'logins'")$pg_get_userbyid
+  stopifnot(owner == "KWTAdmin")
+  #check that no other roles have been granted privileges on the table
+  roles <- DBI::dbGetQuery(conn, "SELECT grantee FROM information_schema.role_table_grants WHERE table_name = 'logins'")$grantee %>%
+    unique()
+  stopifnot(roles == "KWTAdmin")
+
  statement <- glue::glue_sql("DO $$
   DECLARE
     new_username TEXT := {username};
