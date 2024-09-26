@@ -12,9 +12,10 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Rubik-0.4.9/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Connect to a PostgreSQL Database using ODBC">
 </head>
@@ -22,11 +23,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">kwt</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.0001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.0002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,6 +50,14 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -80,12 +89,12 @@ an ODBC connection created by following these instructions.</p>
 </h3>
 <p>The driver can be downloaded here: <a href="https://www.postgresql.org/ftp/odbc/releases/REL-16_00_0005-mimalloc/" class="external-link uri">https://www.postgresql.org/ftp/odbc/releases/REL-16_00_0005-mimalloc/</a>.
 You’ll need to download the psqlodbc-setup.exe file and run it.</p>
-<p><img src="img/installer-start.png" width="70%"></p>
+<p><img src="installer-start.png" width="70%"></p>
 <p>Use the next buttons to go through the wizard. You will need to agree
 to the liscence agreement. Then click ‘install’.</p>
 <p>Wait for the installation (you may need to click ok to let windows
 install the driver).</p>
-<p><img src="img/installer-wait.png" width="70%"></p>
+<p><img src="installer-wait.png" width="70%"></p>
 </div>
 <div class="section level3">
 <h3 id="set-up-an-odbc-data-source">2 - Set up an ODBC Data Source<a class="anchor" aria-label="anchor" href="#set-up-an-odbc-data-source"></a>
@@ -93,14 +102,14 @@ install the driver).</p>
 <p>When installation is complete, search ‘ODBC’ in the search box in
 your task bar. Click on the app called <strong>ODBC Data Sources
 (64-bit)</strong>.</p>
-<p><img src="img/find-odbc-app.png" width="70%"></p>
+<p><img src="find-odbc-app.png" width="70%"></p>
 <p>Go to the second tab called ‘System DSN’. You probably won’t have
 anything listed here yet! Click ‘Add…’ to open a smaller box.</p>
-<p><img src="img/odbc-system-dsn.png" width="70%"></p>
+<p><img src="odbc-system-dsn.png" width="70%"></p>
 <p>Select the PostgreSQL Unicode(x64) driver. If this isn’t listed, the
 installation wasn’t successful. Click Finish to open yet another
 box.</p>
-<p><img src="img/choose-driver.png" width="70%"></p>
+<p><img src="choose-driver.png" width="70%"></p>
 <p>Enter the details as follows:</p>
 <ul>
 <li>Data Source: Choose a name for the connection. It’s easiest to use
@@ -116,7 +125,7 @@ with your database credentials.</li>
 <li>User Name: Your username which will be give to you.</li>
 <li>Password: Also given to you.</li>
 </ul>
-<p><img src="img/connection-details.png" width="70%"></p>
+<p><img src="connection-details.png" width="70%"></p>
 <p>Once you’ve entered all of that, click ‘Test’ to check it works. Then
 click ‘Save’. The connection should now be listed under System Data
 Sources, so you can click ‘OK’ to close the ODBC Data Source
@@ -127,12 +136,12 @@ Administrator.</p>
 </h3>
 <p>Open RStudio and click on ‘New Connection’ in the Connections
 Pane.</p>
-<p><img src="img/new-connection.png" width="70%"></p>
+<p><img src="new-connection.png" width="70%"></p>
 <p>You should be able to find your newly created ODBC data source in the
 box that opens up. Click on it and then make sure you choose ‘Connect
 from: R Console’. Click OK.</p>
-<p><img src="img/choose-connection.png" width="70%"></p>
-<p><img src="img/connection-settings.png" width="70%"></p>
+<p><img src="choose-connection.png" width="70%"></p>
+<p><img src="connection-settings.png" width="70%"></p>
 <p>Now you should see the database represented by a series of dropdowns
 for schemas and objects inside (tables, views and materialised views).
 You can choose to write SQL queries yourself by clicking the SQL button,
@@ -146,12 +155,12 @@ you may need to specify the connection object just created, in this
 example called <code>con</code>, however if you leave the name of the
 connection object as <code>db</code> then the functions in this package
 will use it without needing to explicitly include it as an argument.</p>
-<p><img src="img/db-list-rstudio.png" width="70%"></p>
+<p><img src="db-list-rstudio.png" width="70%"></p>
 <p>RStudio now remembers the code chunk used to set up that connection
 and any others that you create. This means the connection is only a
 couple of clicks away from being made! There is also no risk of your
 database credentials being exposed in your code.</p>
-<p><img src="img/stored-connections.png" width="70%"></p>
+<p><img src="stored-connections.png" width="70%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -164,7 +173,7 @@ database credentials being exposed in your code.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
