@@ -1,4 +1,48 @@
-url: ~
+url: https://kentwildlifetrust.github.io/kwt/reference/index.html
 template:
   bootstrap: 5
+  light-switch: true
+  bslib:
+    bg: "#FFFFFF"
+    fg: "#022140"
+    primary: "#2374FF"
+    base_font: {google: "Rubik"}
 
+reference:
+- title: PostGIS
+- subtitle: Connection
+  contents:
+  - db_connect
+
+- subtitle: Querying
+  contents:
+  - get_lazy
+  - run_lazy
+  - get_definition
+- subtitle: Editing
+  contents:
+  - edit_vals
+- subtitle: Metadata
+  contents:
+  - write_table_report
+- subtitle: Admin
+  contents:
+  - create_db
+  - db_write_data_model
+  - add_role
+  - map_views
+
+- title: Spatial Tools
+  contents:
+  - en2os
+  - os2en
+  - os2point
+  - os2poly
+  - postcode2point
+  - st_centroid_within_poly
+  - postcode_lookup
+
+- title: Other
+  contents:
+  - addCustomLegend
+  - to_title_case

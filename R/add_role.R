@@ -14,21 +14,21 @@
 #'
 add_role <- function(conn, username, group){
   #check if table admin.logins exists
-  if(!DBI::dbExistsTable(conn, DBI::Id("admin", "logins"))){
+  if(!DBI::dbExistsTable(conn, DBI::Id(schema = "admin", table = "logins"))){
     #create admin.logins
     DBI::dbExecute(conn, "CREATE TABLE admin.logins (kwtid INT PRIMARY KEY, username TEXT, password TEXT)")
     #fill the table with radom passwords
     df <- data.frame(kwtid = 1:20, username = NA_character_, password = paste0("pgiskwt", sample(10000:99999, 20)))
-    DBI::dbWriteTable(conn, DBI::Id("admin", "logins"), df, append = TRUE)
+    DBI::dbWriteTable(conn, DBI::Id(schema = "admin", table = "logins"), df, append = TRUE)
   }
 
   #check that the owner of admin.logins is KWTAdmin
   owner <- DBI::dbGetQuery(conn, "SELECT pg_get_userbyid(relowner) FROM pg_class WHERE relname = 'logins'")$pg_get_userbyid
-  stopifnot(owner == "KWTAdmin")
+  stopifnot(owner %in% c("KWTAdminGroup", "KWTAdmin"))
   #check that no other roles have been granted privileges on the table
   roles <- DBI::dbGetQuery(conn, "SELECT grantee FROM information_schema.role_table_grants WHERE table_name = 'logins'")$grantee %>%
     unique()
-  stopifnot(roles == "KWTAdmin")
+  stopifnot(!any(!roles %in% c("KWTAdminGroup", "KWTAdmin")))
 
  statement <- glue::glue_sql("DO $$
   DECLARE

@@ -10,7 +10,7 @@
 #'
 #'
 #'
-#'
+#' @noRd
 
 list_db <- function(conn = db){
 
