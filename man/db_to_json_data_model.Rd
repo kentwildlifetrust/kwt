@@ -15,5 +15,18 @@ db_to_json_data_model(conn, file_path)
 a JSON file with the data model
 }
 \description{
-Create a JSON data model based on a database
+This function helps with viewing database structures, by providing the right json to be ready by \code{read_json_data_model}.
+You can then make destructive updates to the data structure using \code{\link{db_write_data_model}}.
+}
+\examples{
+\dontrun{
+ conn <- DBI::dbConnect(odbc::odbc(), dsn = "Legacy Landscapes", timeout = 10)
+ db_to_json_data_model(conn, "data_model.json")
+ m <- read_json_data_model("data_model.json")
+ m <- model_relational_data(m)
+ db_write_data_model(m, schema_name = NULL, crs_srid = 4326, overwrite = T, conn = conn)
+ DBI::dbDisconnect(conn)
+ }
+
+
 }
