@@ -200,6 +200,7 @@ get_geom_type <- function(conn, schema, table) {
         type == glue::glue("geometry(MULTILINESTRING, {geom_type$srid[1]})") ~ "multilinestring geometry",
         type == glue::glue("geometry(MULTIPOLYGON, {geom_type$srid[1]})") ~ "multipolygon geometry",
         type == glue::glue("geometry(GEOMETRYCOLLECTION, {geom_type$srid[1]})") ~ "geometry collection",
+        type == "geometry(GEOMETRY, 0)" ~ "geometry collection",
         TRUE ~ NA
       ))
     return(geom_type$type)
@@ -241,7 +242,8 @@ db_to_json_data_model <- function(conn, file_path){
   #work out the tables and schemas
   table_schemas <- "SELECT table_schema AS schema, table_name AS table
               FROM information_schema.tables
-       WHERE NOT table_schema IN ({ignore_schemas*});" %>%
+       WHERE NOT table_schema IN ({ignore_schemas*})
+       AND table_type = 'BASE TABLE';" %>%
     glue::glue_sql(.con = conn) %>%
     DBI::dbGetQuery(conn, .)
 
@@ -292,9 +294,15 @@ db_to_json_data_model <- function(conn, file_path){
         type == "integer" ~ "integer",
         type == "character varying" ~ "character",
         type == "boolean" ~ "logical",
+        type == "text" ~ "character",
+        type == "bigint" ~ "integer",
+        type == "geometry" ~ "geometry collection",
+        type == "double precision" ~ "numeric",
         type == "USER-DEFINED" ~ get_geom_type(conn, schema, table),
         TRUE ~ NA
       ))
+
+    if (any(is.na(fields$type))) stop("Data type in the column ", paste0(fields$name[is.na(fields$type)], collapse = ", "), " in the table ", schema, ".", table, " not recognised")
 
     fields$unique[fields$name == "kwtid"] <- T
 

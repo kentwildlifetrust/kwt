@@ -1,0 +1,2006 @@
+{
+    "cache.encrypted_refresh_tokens": {
+        "tableName": [
+            "cache.encrypted_refresh_tokens"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "email",
+                "type": "character",
+                "nullable": true,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "encrypted_token",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "timestamp",
+                "type": "timestamp",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "rand",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "cache.stakeholders": {
+        "tableName": [
+            "cache.stakeholders"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "re_system_record_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "role",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "timestamp",
+                "type": "timestamp",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "cache.fundraisers": {
+        "tableName": [
+            "cache.fundraisers"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "re_system_record_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "timestamp",
+                "type": "timestamp",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "map.kent_boundary": {
+        "tableName": [
+            "map.kent_boundary"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": true,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "fid",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "area_description",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "geom",
+                "type": "geometry collection",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "map.district_centres": {
+        "tableName": [
+            "map.district_centres"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": true,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "fid",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "area_code",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "area_description",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "file_name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "feature_serial_number",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "collection_serial_number",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "global_polygon_id",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "admin_unit_id",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "census_code",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "hectares",
+                "type": "numeric",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "non_inland_area",
+                "type": "numeric",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "area_type_code",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "area_type_description",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "non_area_type_code",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "non_area_type_description",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "geom",
+                "type": "geometry collection",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "map.districts": {
+        "tableName": [
+            "map.districts"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": true,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "fid",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "area_code",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "area_description",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "file_name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "feature_serial_number",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "collection_serial_number",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "global_polygon_id",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "admin_unit_id",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "census_code",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "hectares",
+                "type": "numeric",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "non_inland_area",
+                "type": "numeric",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "area_type_code",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "area_type_description",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "non_area_type_code",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "non_area_type_description",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "geom",
+                "type": "geometry collection",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "main.position_types": {
+        "tableName": [
+            "main.position_types"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "short_name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "long_name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "main.proposal_actions": {
+        "tableName": [
+            "main.proposal_actions"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "proposal_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "action_system_record_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.proposals"
+                ],
+                "key": [
+                    {
+                        "from": "proposal_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Raiser's Edge System Record IDs for the Actions relating to the Proposal being added."
+            ]
+        }
+    },
+    "main.proposal_residential_uses": {
+        "tableName": [
+            "main.proposal_residential_uses"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "proposal_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Foreign key to proposals."
+            },
+            {
+                "name": "n_houses",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": "Proposed number of houses in the development plan."
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.proposals"
+                ],
+                "key": [
+                    {
+                        "from": "proposal_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Proposals with residential use."
+            ]
+        }
+    },
+    "main.local_planning_authorities": {
+        "tableName": [
+            "main.local_planning_authorities"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "geom",
+                "type": "geometry collection",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "main.commercial_use_types": {
+        "tableName": [
+            "main.commercial_use_types"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "long_name",
+                "type": "character",
+                "nullable": false,
+                "unique": false,
+                "comment": "A long name of the Commercial Use Type for displaying in select options and filters."
+            },
+            {
+                "name": "short_name",
+                "type": "character",
+                "nullable": false,
+                "unique": false,
+                "comment": "A short name of the Commercial Use Type for displaying in tables and headers."
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Broad types of Commerical use that may be part of a Proposal."
+            ]
+        }
+    },
+    "main.opportunity_types": {
+        "tableName": [
+            "main.opportunity_types"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "name",
+                "type": "character",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Types of opportunities in proposals for increasing biodiversity."
+            ]
+        }
+    },
+    "main.outcome_types": {
+        "tableName": [
+            "main.outcome_types"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "name",
+                "type": "character",
+                "nullable": false,
+                "unique": false,
+                "comment": "Descriptive name for the Outcome Type."
+            },
+            {
+                "name": "rating",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Percentage value to describe the level of success of an Outcome Type."
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Types of Outcome following KWT's input on a proposal."
+            ]
+        }
+    },
+    "main.example_outcomes": {
+        "tableName": [
+            "main.example_outcomes"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "outcome_type_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Foreign key to outcome_types."
+            },
+            {
+                "name": "description",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": "Description of the Example Outcome."
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.outcome_types"
+                ],
+                "key": [
+                    {
+                        "from": "outcome_type_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Illustrative examples for each Outcome Type, to help categorise Outcomes for KWT's Position on the proposal."
+            ]
+        }
+    },
+    "main.proposal_types": {
+        "tableName": [
+            "main.proposal_types"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "short_name",
+                "type": "character",
+                "nullable": false,
+                "unique": false,
+                "comment": "A short name of the Proposal Type for tables and headers."
+            },
+            {
+                "name": "long_name",
+                "type": "character",
+                "nullable": false,
+                "unique": false,
+                "comment": "A longer name of the proposal type for select options and filters."
+            },
+            {
+                "name": "hex_colour",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "re_name",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": "The name of the relevant value included in the custom table 'Proposal Type' in Raiser's Edge."
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Broad category for the type of planning proposal."
+            ]
+        }
+    },
+    "main.update_concerns": {
+        "tableName": [
+            "main.update_concerns"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "update_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Foreign key to updates."
+            },
+            {
+                "name": "concern_type_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Foreign key to concern_types."
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.updates"
+                ],
+                "key": [
+                    {
+                        "from": "update_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            },
+            {
+                "refTable": [
+                    "main.concern_types"
+                ],
+                "key": [
+                    {
+                        "from": "concern_type_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Selected Concerns about risk to biodiversity included in an Update on KWT's position towards a proposal."
+            ]
+        }
+    },
+    "main.proposal_commercial_uses": {
+        "tableName": [
+            "main.proposal_commercial_uses"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "proposal_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Foreign key to proposals."
+            },
+            {
+                "name": "commercial_use_type_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Foreign key to commercial_use_types."
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.proposals"
+                ],
+                "key": [
+                    {
+                        "from": "proposal_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            },
+            {
+                "refTable": [
+                    "main.commercial_use_types"
+                ],
+                "key": [
+                    {
+                        "from": "commercial_use_type_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "main.concern_types": {
+        "tableName": [
+            "main.concern_types"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "name",
+                "type": "character",
+                "nullable": false,
+                "unique": false,
+                "comment": "Name of the Concern Type."
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Types of concern that KWT may have about a proposal."
+            ]
+        }
+    },
+    "main.proposals": {
+        "tableName": [
+            "main.proposals"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "site_name",
+                "type": "character",
+                "nullable": false,
+                "unique": false,
+                "comment": "A name that the planning team refer to the site by."
+            },
+            {
+                "name": "proposal_type_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Foreign key to proposal_types."
+            },
+            {
+                "name": "reference",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": "Planning reference in the format KCC/MA/0074/2022."
+            },
+            {
+                "name": "is_archived",
+                "type": "logical",
+                "nullable": false,
+                "unique": false,
+                "comment": "Setting this to TRUE hides the proposal by default in the app."
+            },
+            {
+                "name": "created",
+                "type": "timestamp",
+                "nullable": false,
+                "unique": false,
+                "comment": "Time when the proposal was first added in to the app."
+            },
+            {
+                "name": "updated",
+                "type": "timestamp",
+                "nullable": false,
+                "unique": false,
+                "comment": "Time when the proposal was last updated."
+            },
+            {
+                "name": "geom",
+                "type": "multipolygon geometry",
+                "nullable": false,
+                "unique": false,
+                "comment": "Proposal boundary."
+            },
+            {
+                "name": "url",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "description",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": "A free text description of the Proposal."
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.proposal_types"
+                ],
+                "key": [
+                    {
+                        "from": "proposal_type_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Planning applications, Nationally Significant Infrastructure Projects (NSIPs) and Strategic Development Allocations which are of interest to KWT."
+            ]
+        }
+    },
+    "main.updates": {
+        "tableName": [
+            "main.updates"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "proposal_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Foreign key to proposals."
+            },
+            {
+                "name": "comment",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": "Any comments about the update."
+            },
+            {
+                "name": "created",
+                "type": "timestamp",
+                "nullable": false,
+                "unique": false,
+                "comment": "Time when the update was added to the app."
+            },
+            {
+                "name": "position_date",
+                "type": "date",
+                "nullable": false,
+                "unique": false,
+                "comment": "Date when KWT's position was decided."
+            },
+            {
+                "name": "position_type_kwtid",
+                "type": "integer",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.proposals"
+                ],
+                "key": [
+                    {
+                        "from": "proposal_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            },
+            {
+                "refTable": [
+                    "main.position_types"
+                ],
+                "key": [
+                    {
+                        "from": "position_type_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Recorded positions that KWT has taken about a proposal, and the subsequent outcome of the planning decision."
+            ]
+        }
+    },
+    "main.update_opportunities": {
+        "tableName": [
+            "main.update_opportunities"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "update_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Foreign key to updates."
+            },
+            {
+                "name": "opportunity_type_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": "Foreign key to opportunity_types."
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.updates"
+                ],
+                "key": [
+                    {
+                        "from": "update_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            },
+            {
+                "refTable": [
+                    "main.opportunity_types"
+                ],
+                "key": [
+                    {
+                        "from": "opportunity_type_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "Selected Opportunities for biodiversity benefit included in an Update on KWT's position towards a proposal."
+            ]
+        }
+    },
+    "main.outcomes": {
+        "tableName": [
+            "main.outcomes"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "proposal_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "comment",
+                "type": "character",
+                "nullable": true,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "created",
+                "type": "timestamp",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "outcome_date",
+                "type": "date",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "outcome_type_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.proposals"
+                ],
+                "key": [
+                    {
+                        "from": "proposal_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            },
+            {
+                "refTable": [
+                    "main.outcome_types"
+                ],
+                "key": [
+                    {
+                        "from": "outcome_type_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "main.outcome_actions": {
+        "tableName": [
+            "main.outcome_actions"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "outcome_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "action_system_record_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.outcomes"
+                ],
+                "key": [
+                    {
+                        "from": "outcome_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    },
+    "main.update_actions": {
+        "tableName": [
+            "main.update_actions"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "update_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "action_system_record_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "main.updates"
+                ],
+                "key": [
+                    {
+                        "from": "update_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    }
+}
+
