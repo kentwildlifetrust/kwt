@@ -1,0 +1,72 @@
+{
+  "reference.sites": {
+    "tableName": ["reference.sites"],
+    "fields": [
+      {
+        "name": "kwtid",
+        "type": "integer",
+        "nullable": false,
+        "unique": true,
+        "comment": ""
+      }
+    ],
+    "primaryKey": ["kwtid"],
+    "foreignKeys": [],
+    "indexes": [
+      {
+        "fields": ["kwtid"],
+        "unique": [true]
+      }
+    ],
+    "display": {
+      "x": [44],
+      "y": [43],
+      "color": ["NA"],
+      "comment": ["NA"]
+    }
+  },
+  "operations.dedications": {
+    "tableName": ["operations.dedications"],
+    "fields": [
+      {
+        "name": "kwtid",
+        "type": "integer",
+        "nullable": false,
+        "unique": true,
+        "comment": ""
+      },
+      {
+        "name": "site_kwtid",
+        "type": "integer",
+        "nullable": false,
+        "unique": false,
+        "comment": ""
+      }
+    ],
+    "primaryKey": ["kwtid"],
+    "foreignKeys": [
+      {
+        "refTable": ["reference.sites"],
+        "key": [
+          {
+            "from": "site_kwtid",
+            "to": "kwtid"
+          }
+        ],
+        "cardinality": [0, -1, 1, 1]
+      }
+    ],
+    "indexes": [
+      {
+        "fields": ["kwtid"],
+        "unique": [true]
+      }
+    ],
+    "display": {
+      "x": [43],
+      "y": [-77],
+      "color": ["NA"],
+      "comment": ["NA"]
+    }
+  }
+}

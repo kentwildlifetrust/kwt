@@ -4,12 +4,18 @@
 \alias{db_write_data_model}
 \title{Write a postgisMoR data model to the database}
 \usage{
-db_write_data_model(x, schema_name, crs_srid = 4326, overwrite = F, conn = db)
+db_write_data_model(
+  x,
+  schema_name = NULL,
+  crs_srid = 4326,
+  overwrite = F,
+  conn = db
+)
 }
 \arguments{
 \item{x}{RelDataModel list created by \code{kwt::read_json_data_model} or \code{kwt::model_relational_data}}
 
-\item{schema_name}{name of the schema to create the tables in.}
+\item{schema_name}{name of the schema to create the tables in. If NULL, the table names must be in the format schema_name.table_name.}
 
 \item{crs_srid}{the SRID of the coordinate reference system to use for geometry columns, if they are present in any of the tables.}
 

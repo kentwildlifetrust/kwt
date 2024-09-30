@@ -3,7 +3,6 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{write_json_data_model}
 \alias{read_json_data_model}
 \alias{model_relational_data}
 \title{Objects exported from other packages}
@@ -13,6 +12,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{postgisMoR}{\code{\link[postgisMoR]{model_relational_data}}, \code{\link[postgisMoR]{read_json_data_model}}, \code{\link[postgisMoR]{write_json_data_model}}}
+  \item{postgisMoR}{\code{\link[postgisMoR]{model_relational_data}}, \code{\link[postgisMoR]{read_json_data_model}}}
 }}
 

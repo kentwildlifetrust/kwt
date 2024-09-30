@@ -1,0 +1,121 @@
+{
+    "operations.dedications": {
+        "tableName": [
+            "operations.dedications"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            },
+            {
+                "name": "site_kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "comment": ""
+            },
+            {
+                "name": "test_unique",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": "test comment"
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": [
+            {
+                "refTable": [
+                    "reference.sites"
+                ],
+                "key": [
+                    {
+                        "from": "site_kwtid",
+                        "to": "kwtid"
+                    }
+                ],
+                "cardinality": [
+                    0,
+                    -1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "test"
+            ]
+        }
+    },
+    "reference.sites": {
+        "tableName": [
+            "reference.sites"
+        ],
+        "fields": [
+            {
+                "name": "kwtid",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "comment": ""
+            }
+        ],
+        "primaryKey": [
+            "kwtid"
+        ],
+        "foreignKeys": {
+
+        },
+        "indexes": [
+            {
+                "fields": [
+                    "kwtid"
+                ],
+                "unique": [
+                    true
+                ]
+            }
+        ],
+        "display": {
+            "x": [
+                45
+            ],
+            "y": [
+                45
+            ],
+            "color": [
+                "NA"
+            ],
+            "comment": [
+                "NA"
+            ]
+        }
+    }
+}
+
