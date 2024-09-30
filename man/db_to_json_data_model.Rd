@@ -4,10 +4,10 @@
 \alias{db_to_json_data_model}
 \title{Create a JSON data model based on a database}
 \usage{
-db_to_json_data_model(x, file_path)
+db_to_json_data_model(conn, file_path)
 }
 \arguments{
-\item{x}{database connection object}
+\item{conn}{database connection object}
 
 \item{file_path}{path to save the JSON file}
 }

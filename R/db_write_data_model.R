@@ -119,7 +119,6 @@ db_write_data_model <- function(x, schema_name = NULL, crs_srid = 4326, overwrit
 
     fields <- fields %>%
       dplyr::mutate(type = dplyr::case_when(
-        type == "POSIXct" ~ "timestamp without time zone",
         type == "numeric" ~ "float",
         type == "date" ~ "date",
         type == "timestamp" ~ "timestamp without time zone",
@@ -179,18 +178,48 @@ db_write_data_model <- function(x, schema_name = NULL, crs_srid = 4326, overwrit
   message(paste("Successfully created" , length(x), "tables"))
 }
 
+get_geom_type <- function(conn, schema, table) {
+  geom_type <- "SELECT srid,
+            CONCAT('geometry(', type, ', ', srid, ')') AS type
+        FROM
+            geometry_columns
+        WHERE
+            f_table_schema = {schema}
+            AND f_table_name = {table}
+            AND f_geometry_column = 'geom';" %>%
+    glue::glue_sql(.con = conn) %>%
+    DBI::dbGetQuery(conn, .)
+
+  if (nrow(geom_type) == 1) {
+    geom_type <- geom_type %>%
+      dplyr::mutate(type = dplyr::case_when(
+        type == glue::glue("geometry(POINT, {geom_type$srid[1]})") ~ "point geometry",
+        type == glue::glue("geometry(LINESTRING, {geom_type$srid[1]})") ~ "linestring geometry",
+        type == glue::glue("geometry(POLYGON, {geom_type$srid[1]})") ~ "polygon geometry",
+        type == glue::glue("geometry(MULTIPOINT, {geom_type$srid[1]})") ~ "multipoint geometry",
+        type == glue::glue("geometry(MULTILINESTRING, {geom_type$srid[1]})") ~ "multilinestring geometry",
+        type == glue::glue("geometry(MULTIPOLYGON, {geom_type$srid[1]})") ~ "multipolygon geometry",
+        type == glue::glue("geometry(GEOMETRYCOLLECTION, {geom_type$srid[1]})") ~ "geometry collection",
+        TRUE ~ NA
+      ))
+    return(geom_type$type)
+  } else {
+    return(NA)
+  }
+}
+
 
 #' Create a JSON data model based on a database
 #'
-#' @param x database connection object
+#' @param conn database connection object
 #' @param file_path path to save the JSON file
 #'
 #' @return a JSON file with the data model
 #' @export
 #'
-db_to_json_data_model <- function(x, file_path){
-  if (!inherits(x, "DBIConnection")) {
-    stop("x must be a database connection")
+db_to_json_data_model <- function(conn, file_path){
+  if (!inherits(conn, "DBIConnection")) {
+    stop("conn must be a database connection")
   }
 
   ignore_schemas <- c("information_schema", "pg_catalog", "postgis", "admin", "dev", "backup", "public")
@@ -199,15 +228,15 @@ db_to_json_data_model <- function(x, file_path){
   table_schemas <- "SELECT table_schema AS schema, table_name AS table
               FROM information_schema.tables
        WHERE NOT table_schema IN ({ignore_schemas*});" %>%
-    glue::glue_sql(.con = x) %>%
-    DBI::dbGetQuery(x, .)
+    glue::glue_sql(.con = conn) %>%
+    DBI::dbGetQuery(conn, .)
 
   json <- mapply(function(table, schema) {
     fields <- "SELECT column_name AS name, data_type AS type, is_nullable AS nullable
                 FROM information_schema.columns
                 WHERE table_name = {table} AND table_schema = {schema};" %>%
-      glue::glue_sql(.con = x) %>%
-      DBI::dbGetQuery(x, .) %>%
+      glue::glue_sql(.con = conn) %>%
+      DBI::dbGetQuery(conn, .) %>%
       dplyr::mutate(nullable = nullable %in% "YES")
 
     #check each field for a uniqueness restraint
@@ -227,8 +256,8 @@ db_to_json_data_model <- function(x, file_path){
           con.contype = 'u'  -- 'u' indicates a unique constraint
           AND n.nspname = {schema}
           AND con.conrelid = {paste0(schema, '.', table)}::regclass" %>%
-        glue::glue_sql(.con = x) %>%
-        DBI::dbGetQuery(x, .)
+        glue::glue_sql(.con = conn) %>%
+        DBI::dbGetQuery(conn, .)
 
 
     fields <- fields %>%
@@ -236,6 +265,22 @@ db_to_json_data_model <- function(x, file_path){
       dplyr::mutate(unique = !is.na(constraint_name)) %>%
       dplyr::select(-constraint_name, -table_name, -constraint_type, -schema_name)
 
+
+    #multile geometry columns should throw and error
+    stopifnot(sum(fields$type %in% "USER-DEFINED") <= 1)
+
+    #convert the data types
+    fields <- fields %>%
+      dplyr::mutate(type = dplyr::case_when(
+        type == "float" ~ "numeric",
+        type == "date" ~ "date",
+        type == "timestamp without time zone" ~ "timestamp",
+        type == "integer" ~ "integer",
+        type == "character varying" ~ "character",
+        type == "boolean" ~ "logical",
+        type == "USER-DEFINED" ~ get_geom_type(conn, schema, table),
+        TRUE ~ NA
+      ))
 
     fields$unique[fields$name == "kwtid"] <- T
 
@@ -253,8 +298,8 @@ db_to_json_data_model <- function(x, file_path){
                   WHERE
                       n.nspname = {schema}
                       AND c.relname = {table};" %>%
-        glue::glue_sql(.con = x) %>%
-        DBI::dbGetQuery(x, .)
+        glue::glue_sql(.con = conn) %>%
+        DBI::dbGetQuery(conn, .)
 
     fields <- fields %>%
       dplyr::left_join(col_comments, by = c("name" = "column_name")) %>%
@@ -275,12 +320,13 @@ db_to_json_data_model <- function(x, file_path){
                       tc.constraint_type = 'FOREIGN KEY' AND
                       tc.table_name = {table} AND
                       tc.table_schema = {schema};" %>%
-      glue::glue_sql(.con = x) %>%
-      DBI::dbGetQuery(x, .)
+      glue::glue_sql(.con = conn) %>%
+      DBI::dbGetQuery(conn, .) %>%
+      dplyr::distinct()
 
     table_comment <- "SELECT obj_description({paste0(schema, '.', table)}::regclass) AS table_comment;" %>%
-      glue::glue_sql(.con = x) %>%
-      DBI::dbGetQuery(x, .) %>%
+      glue::glue_sql(.con = conn) %>%
+      DBI::dbGetQuery(conn, .) %>%
       dplyr::pull()
 
     if (length(table_comment) == 0 || is.na(table_comment)) {
@@ -323,6 +369,8 @@ db_to_json_data_model <- function(x, file_path){
   jsonlite::toJSON(json, auto_unbox = T) %>%
     jsonlite::prettify() %>%
     writeLines(con = file_path)
+
+  return()
 
 }
 
