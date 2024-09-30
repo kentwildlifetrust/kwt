@@ -29,6 +29,7 @@ reference:
   contents:
   - create_db
   - db_write_data_model
+  - db_to_json_data_model
   - add_role
   - map_views
 
