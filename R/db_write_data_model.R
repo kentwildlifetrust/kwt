@@ -60,7 +60,7 @@ db_write_data_model <- function(x, schema_name = NULL, crs_srid = 4326, overwrit
   }
 
 
-  #find if tables already exist
+  #find if tables already exist, and delete if they already do exist and overwriting is permitted
   for (i in 1:length(x)) {
     s <- table_schemas[[i]]$schema
     t <- table_schemas[[i]]$table
@@ -69,9 +69,9 @@ db_write_data_model <- function(x, schema_name = NULL, crs_srid = 4326, overwrit
     if (exists & !overwrite) {
       stop(paste0('Table "', t, '" already exists in the schema "', s, '"'))
     } else if (exists & overwrite) {
-      DBI::dbExecute(conn, glue::glue_sql("DROP TABLE {`s`}.{`t`} CASCADE;",
+      DBI::dbExecute(conn, glue::glue_sql("DROP TABLE IF EXISTS {`s`}.{`t`} CASCADE;",
                                           .con = conn))
-      DBI::dbExecute(conn, glue::glue_sql("DROP SEQUENCE {`s`}.{`paste0(t, '_kwtid')`};",
+      DBI::dbExecute(conn, glue::glue_sql("DROP SEQUENCE IF EXISTS {`s`}.{`paste0(t, '_kwtid')`};",
                                           .con = conn))
     }
   }
