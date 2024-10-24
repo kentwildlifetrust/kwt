@@ -1,12 +1,17 @@
 url: https://kentwildlifetrust.github.io/kwt/
 template:
-  bootstrap: 5
-  light-switch: true
+  theme: arrow-dark
   bslib:
-    bg: "#FFFFFF"
-    fg: "#022140"
-    primary: "#2374FF"
+    version: 5
+    bg: "#022140"
+    fg: "#d0d0d0"
+    primary: "#EE5C35"
     base_font: {google: "Rubik"}
+    heading_font: adelle
+
+includes:
+    in_header: <link rel = "stylesheet" type = "text/css" href = "https://use.typekit.net/rym8roq.css"/>
+
 
 reference:
 - title: PostGIS
