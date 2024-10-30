@@ -81,6 +81,12 @@ db_write_data_model <- function(x, schema_name = NULL, crs_srid = 4326, overwrit
     s <- table_schemas[[i]]$schema
     t <- table_schemas[[i]]$table
 
+    pk <- x[[i]]$primaryKey
+    if (length(pk) == 0 || pk %in% c("", NA)) {
+      warning("Missing primary key for table ", t, ". Using the first field as the primary key")
+      pk <- x[[i]]$fields$name[1]
+    }
+
     #add sequence on kwtid
     sequence_name <- paste0(t, "_kwtid")
     sequence_statement <- glue::glue_sql('CREATE SEQUENCE IF NOT EXISTS {`s`}.{`sequence_name`}
@@ -95,8 +101,8 @@ db_write_data_model <- function(x, schema_name = NULL, crs_srid = 4326, overwrit
     #initialise table
     create_statement <- glue::glue_sql("CREATE TABLE {`s`}.{`t`}
                             (
-                              kwtid integer DEFAULT nextval({paste0(s, '.', sequence_name)}) NOT NULL,
-                              PRIMARY KEY (kwtid)
+                              {`pk`} integer DEFAULT nextval({paste0(s, '.', sequence_name)}) NOT NULL,
+                              PRIMARY KEY ({`pk`})
                             )",
                                        .con = conn)
     DBI::dbExecute(conn, create_statement)
@@ -113,7 +119,7 @@ db_write_data_model <- function(x, schema_name = NULL, crs_srid = 4326, overwrit
     if (nrow(fields) == 0) next
 
     fields <- fields %>%
-      dplyr::filter(name != "kwtid")
+      dplyr::filter(name != pk)
 
     if (nrow(fields) == 0) next
 
@@ -166,7 +172,7 @@ db_write_data_model <- function(x, schema_name = NULL, crs_srid = 4326, overwrit
       to <- table_schemas[[which(names(x) %in% fk$refTable)]]
       foreign_key_statement <- glue::glue_sql(
         'ALTER TABLE {`from$schema`}.{`from$table`}
-         ADD CONSTRAINT {`fk$key$from`} FOREIGN KEY ({`fk$key$from`})
+         ADD CONSTRAINT {`paste0(fk$key$from)`} FOREIGN KEY ({`fk$key$from`})
           REFERENCES {`to$schema`}.{`to$table`} ({`fk$key$to`}) MATCH SIMPLE
           ON UPDATE RESTRICT
           ON DELETE RESTRICT;',
@@ -275,12 +281,10 @@ db_to_json_data_model <- function(conn, file_path){
         glue::glue_sql(.con = conn) %>%
         DBI::dbGetQuery(conn, .)
 
-
     fields <- fields %>%
       dplyr::left_join(unique_constraints, by = c("name" = "column_name")) %>%
       dplyr::mutate(unique = !is.na(constraint_name)) %>%
       dplyr::select(-constraint_name, -table_name, -constraint_type, -schema_name)
-
 
     #multile geometry columns should throw and error
     stopifnot(sum(fields$type %in% "USER-DEFINED") <= 1)
@@ -288,6 +292,7 @@ db_to_json_data_model <- function(conn, file_path){
     #convert the data types
     fields <- fields %>%
       dplyr::mutate(type = dplyr::case_when(
+        type == "numeric" ~ "numeric",
         type == "float" ~ "numeric",
         type == "date" ~ "date",
         type == "timestamp without time zone" ~ "timestamp",
@@ -295,6 +300,7 @@ db_to_json_data_model <- function(conn, file_path){
         type == "character varying" ~ "character",
         type == "boolean" ~ "logical",
         type == "text" ~ "character",
+        type == "character" ~ "character",
         type == "bigint" ~ "integer",
         type == "geometry" ~ "geometry collection",
         type == "double precision" ~ "numeric",
@@ -328,6 +334,18 @@ db_to_json_data_model <- function(conn, file_path){
       dplyr::mutate(comment = ifelse(is.na(column_description), "", column_description)) %>%
       dplyr::select(-column_description)
 
+    foreign_key_constraints <- "SELECT * FROM information_schema.table_constraints WHERE table_name = {table} AND table_schema = {schema} AND constraint_type = 'FOREIGN KEY';" %>%
+      glue::glue_sql(.con = conn) %>%
+      DBI::dbGetQuery(conn, .)
+
+    from_col <- "SELECT * FROM information_schema.key_column_usage WHERE table_name = {table} AND table_schema = {schema} AND constraint_name IN ({foreign_key_constraints$constraint_name*});" %>%
+      glue::glue_sql(.con = conn) %>%
+      DBI::dbGetQuery(conn, .)
+
+    to_col <- "SELECT * FROM information_schema.constraint_column_usage WHERE table_name IN {from_col$ constraint_name IN ({foreign_key_constraints$constraint_name*});" %>%
+      glue::glue_sql(.con = conn) %>%
+      DBI::dbGetQuery(conn, .)
+
     foreign_keys <- "SELECT
                       CONCAT(ccu.table_schema, '.', ccu.table_name)  AS ref_table,
                       kcu.column_name AS key_from,
@@ -355,10 +373,29 @@ db_to_json_data_model <- function(conn, file_path){
       table_comment <- "NA"
     }
 
+    primary_key <- "SELECT
+                      pg_attribute.attname,
+                      format_type(pg_attribute.atttypid, pg_attribute.atttypmod)
+                    FROM
+                      pg_index, pg_class, pg_attribute
+                    WHERE
+                      pg_class.oid = {paste0(schema, '.', table)}::regclass AND
+                      indrelid = pg_class.oid AND
+                      pg_attribute.attrelid = pg_class.oid AND
+                      pg_attribute.attnum = any(pg_index.indkey)
+                      AND indisprimary;" %>%
+      glue::glue_sql(.con = conn) %>%
+      DBI::dbGetQuery(conn, .) %>%
+      dplyr::pull(attname)
+
+    if (length(primary_key) == 0) {
+      primary_key <- fields$name[1]
+    }
+
     list(
       tableName = list(paste0(schema, ".", table)),
       fields = fields,
-      primaryKey = list("kwtid"),
+      primaryKey = list(primary_key),
       foreignKeys = if (nrow(foreign_keys) > 0) {
         lapply(1:nrow(foreign_keys), function(i) {
           list(
@@ -373,7 +410,7 @@ db_to_json_data_model <- function(conn, file_path){
           unname()
       },
       indexes = list(list(
-        fields = list("kwtid"),
+        fields = list(primary_key),
         unique = list(T)
       )),
       display = list(
