@@ -334,17 +334,17 @@ db_to_json_data_model <- function(conn, file_path){
       dplyr::mutate(comment = ifelse(is.na(column_description), "", column_description)) %>%
       dplyr::select(-column_description)
 
-    foreign_key_constraints <- "SELECT * FROM information_schema.table_constraints WHERE table_name = {table} AND table_schema = {schema} AND constraint_type = 'FOREIGN KEY';" %>%
-      glue::glue_sql(.con = conn) %>%
-      DBI::dbGetQuery(conn, .)
-
-    from_col <- "SELECT * FROM information_schema.key_column_usage WHERE table_name = {table} AND table_schema = {schema} AND constraint_name IN ({foreign_key_constraints$constraint_name*});" %>%
-      glue::glue_sql(.con = conn) %>%
-      DBI::dbGetQuery(conn, .)
-
-    to_col <- "SELECT * FROM information_schema.constraint_column_usage WHERE table_name IN {from_col$ constraint_name IN ({foreign_key_constraints$constraint_name*});" %>%
-      glue::glue_sql(.con = conn) %>%
-      DBI::dbGetQuery(conn, .)
+    # foreign_key_constraints <- "SELECT * FROM information_schema.table_constraints WHERE table_name = {table} AND table_schema = {schema} AND constraint_type = 'FOREIGN KEY';" %>%
+    #   glue::glue_sql(.con = conn) %>%
+    #   DBI::dbGetQuery(conn, .)
+    #
+    # from_col <- "SELECT * FROM information_schema.key_column_usage WHERE table_name = {table} AND table_schema = {schema} AND constraint_name IN ({foreign_key_constraints$constraint_name*});" %>%
+    #   glue::glue_sql(.con = conn) %>%
+    #   DBI::dbGetQuery(conn, .)
+    #
+    # to_col <- "SELECT * FROM information_schema.constraint_column_usage WHERE table_name IN {from_col$ constraint_name IN ({foreign_key_constraints$constraint_name*});" %>%
+    #   glue::glue_sql(.con = conn) %>%
+    #   DBI::dbGetQuery(conn, .)
 
     foreign_keys <- "SELECT
                       CONCAT(ccu.table_schema, '.', ccu.table_name)  AS ref_table,
