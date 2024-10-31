@@ -4,12 +4,14 @@
 \alias{db_to_json_data_model}
 \title{Create a JSON data model based on a database}
 \usage{
-db_to_json_data_model(conn, file_path)
+db_to_json_data_model(conn, file_path, schemas = NULL)
 }
 \arguments{
 \item{conn}{database connection object}
 
 \item{file_path}{path to save the JSON file}
+
+\item{schemas}{if NULL, all schemas will be included except information_schema, pg_catalog, postgis, admin, dev, backup & public. Otherwise, a character vector of schema names to include.}
 }
 \value{
 a JSON file with the data model

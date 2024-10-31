@@ -223,6 +223,7 @@ get_geom_type <- function(conn, schema, table) {
 #'
 #' @param conn database connection object
 #' @param file_path path to save the JSON file
+#' @param schemas if NULL, all schemas will be included except information_schema, pg_catalog, postgis, admin, dev, backup & public. Otherwise, a character vector of schema names to include.
 #'
 #' @return a JSON file with the data model
 #' @export
@@ -238,20 +239,30 @@ get_geom_type <- function(conn, schema, table) {
 #'  }
 #'
 #'
-db_to_json_data_model <- function(conn, file_path){
+db_to_json_data_model <- function(conn, file_path, schemas = NULL){
   if (!inherits(conn, "DBIConnection")) {
     stop("conn must be a database connection")
   }
 
-  ignore_schemas <- c("information_schema", "pg_catalog", "postgis", "admin", "dev", "backup", "public")
+  if (is.null(schemas)) {
+    ignore_schemas <- c("information_schema", "pg_catalog", "postgis", "admin", "dev", "backup", "public")
 
-  #work out the tables and schemas
-  table_schemas <- "SELECT table_schema AS schema, table_name AS table
-              FROM information_schema.tables
-       WHERE NOT table_schema IN ({ignore_schemas*})
-       AND table_type = 'BASE TABLE';" %>%
-    glue::glue_sql(.con = conn) %>%
-    DBI::dbGetQuery(conn, .)
+    #work out the tables and schemas
+    table_schemas <- "SELECT table_schema AS schema, table_name AS table
+                FROM information_schema.tables
+         WHERE NOT table_schema IN ({ignore_schemas*})
+         AND table_type = 'BASE TABLE';" %>%
+      glue::glue_sql(.con = conn) %>%
+      DBI::dbGetQuery(conn, .)
+  } else {
+    table_schemas <- "SELECT table_schema AS schema, table_name AS table
+                FROM information_schema.tables
+         WHERE table_schema IN ({schemas*})
+         AND table_type = 'BASE TABLE';" %>%
+      glue::glue_sql(.con = conn) %>%
+      DBI::dbGetQuery(conn, .)
+  }
+
 
   json <- mapply(function(table, schema) {
     fields <- "SELECT column_name AS name, data_type AS type, is_nullable AS nullable
