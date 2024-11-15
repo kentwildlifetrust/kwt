@@ -7,12 +7,10 @@
 #' @param conn Connection to a database, which must be using the KWTAdmin credentials.
 #' @param username The username for the new credentials.
 #'
-#' @param group The name of a user group to add the credentials to.
-#'
 #' @return A list including the username and password of the new credentials
 #' @export
 #'
-add_role <- function(conn, username, group){
+add_role <- function(conn, username){
   #check if table admin.logins exists
   if(!DBI::dbExistsTable(conn, DBI::Id(schema = "admin", table = "logins"))){
     #create admin.logins
@@ -29,6 +27,11 @@ add_role <- function(conn, username, group){
   roles <- DBI::dbGetQuery(conn, "SELECT grantee FROM information_schema.role_table_grants WHERE table_name = 'logins'")$grantee %>%
     unique()
   stopifnot(!any(!roles %in% c("KWTAdminGroup", "KWTAdmin")))
+  #check that there are some empty slots
+  empty_slots <- DBI::dbGetQuery(conn, "SELECT COUNT(*) FROM admin.logins WHERE username IS NULL OR username = '' LIMIT 1;")
+  if (empty_slots == 0){
+    stop("No empty slots in admin.logins table")
+  }
 
  statement <- glue::glue_sql("DO $$
   DECLARE

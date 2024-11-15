@@ -4,14 +4,12 @@
 \alias{add_role}
 \title{Add a role to the database}
 \usage{
-add_role(conn, username, group)
+add_role(conn, username)
 }
 \arguments{
 \item{conn}{Connection to a database, which must be using the KWTAdmin credentials.}
 
 \item{username}{The username for the new credentials.}
-
-\item{group}{The name of a user group to add the credentials to.}
 }
 \value{
 A list including the username and password of the new credentials
